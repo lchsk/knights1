@@ -1,0 +1,50 @@
+body { margin: 0; }
+
+font-face {
+    font-weight: normal;
+    font-style: normal;
+    font-variant: normal;
+
+    font-family: 'Penshurst';
+    src: 
+         /*url('mojFont.eot?') format('eot'), */
+         /*url('mojFont.woff') format('woff'), */
+         url('res/penshurst_regular.ttf')  format('truetype'),
+         /*url('mojFont.svg#svgFontName') format('svg');*/
+}
+
+
+font-face {
+    font-weight: bold;
+    font-style: normal;
+    font-variant: normal;
+
+    font-family: 'Penshurst';
+    src: 
+         /*url('mojFont.eot?') format('eot'), */
+         /*url('mojFont.woff') format('woff'), */
+         url('res/penshurst_bold.ttf')  format('truetype'),
+         /*url('mojFont.svg#svgFontName') format('svg');*/
+}
+
+
+#canvas-wrap { position:relative } /* Make this a positioned parent */
+#overlay     { position:absolute; top:20px; left:30px; }
+
+/**
+* Div containing all kinds of menu data
+*/
+div.menu{
+    background-color: rgba(255, 255, 255, 0.5);
+    
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    
+    font-family: Arial, sans-serif;
+    font-size: 13px;
+    
+    width: 30%;
+    margin-left: 10%;
+    margin-top: 5%;
+    padding: 20px;
+}
