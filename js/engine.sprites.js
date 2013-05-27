@@ -36,6 +36,9 @@ var GameSprites = {
     btn_sbarracks : new Image(),
     btn_sgoldmine : new Image(),
     
+    // units
+    btn_kknight : new Image(),
+    
 
     // drawing characters health
     life_strip : {
@@ -82,3 +85,7 @@ GameSprites.btn_mason.src = config.IMAGES_PATH + 'btn_mason.png';
 GameSprites.btn_stower.src = config.IMAGES_PATH + 'btn_stower.png';
 GameSprites.btn_sbarracks.src = config.IMAGES_PATH + 'btn_sbarracks.png';
 GameSprites.btn_sgoldmine.src = config.IMAGES_PATH + 'btn_sgoldmine.png';
+
+// Units
+
+GameSprites.btn_kknight.src = config.IMAGES_PATH + 'btn_kknight.png';

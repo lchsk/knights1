@@ -140,7 +140,48 @@ function finalize_build()
 
 
 
+function train_unit(name)
+{
+    var gold = current_game.gold;
+    var material = current_game.material;
+    var food = current_game.food;
+    
+    var price = prices[name];
 
+    if (price)
+    {
+        if (gold >= price['gold'] && food >= price['food'])
+        {
+            //
+            //current_game.constructing = true;
+            
+            if (current_game.units_queue.length < current_game.max_units_in_training)
+            {
+                // Knights
+                if (name == 'kknight')
+                {
+                    var tmp_obj = { 'unitclass': unit_knights_knight, 'name': 'kknight' }
+                    current_game.units_queue.push(tmp_obj);
+                    current_game.units_in_training++;
+                    
+                }   
+                
+                // substract price
+                    current_game.gold -= prices[name].gold;
+                    current_game.food -= prices[name].food;
+            }
+            else
+            {
+                popups['max_three_units_in_training'].visible = true;
+            }
+            
+        }
+        else
+        {
+            popups['not_enough_to_train'].visible = true;
+        }
+    }
+}
 
 
 
@@ -380,16 +421,47 @@ var update = function(ms){
             }
         }
     }
+    
+    function hide_buttons()
+    {
+        buttons['build_kknight'].visible = false;
+        
+        buttons['build_farm'].visible = false;
+            buttons['build_woodcutter'].visible = false;
+            buttons['build_ktower'].visible = false;
+            buttons['build_kbarracks'].visible = false;
+            buttons['build_kgoldmine'].visible = false;
+            
+            buttons['build_temple'].visible = false;
+            buttons['build_mason'].visible = false;
+            buttons['build_stower'].visible = false;
+            buttons['build_sbarracks'].visible = false;
+            buttons['build_sgoldmine'].visible = false;
+    }
 
     /** 
     * Drawing menu buttons when necessary
     */
     if (selected_units.length == 1 && selected_units[0].what == 'building')
     {
+        hide_buttons();
+        
         buttons['destroy_building'].visible = true;
         buttons['building_health'].visible = true;
 
-        if (selected_units[0].building_class.GetType() == BuildingType.MAIN && selected_units[0].construction_progress >= 100)
+        // if barracks are selected
+        if (selected_units[0].building_class.GetType() == BuildingType.BARRACKS && selected_units[0].construction_progress >= 100)
+        {
+            //buttons['destroy_building'].visible = false;
+            
+            if (current_game.player1_side_id == GameSide.KNIGHTS)
+            {
+                buttons['build_kknight'].visible = true;
+            }
+        }
+        
+        // if main building is selected
+        else if (selected_units[0].building_class.GetType() == BuildingType.MAIN && selected_units[0].construction_progress >= 100)
         {
             buttons['destroy_building'].visible = false;
             
@@ -428,26 +500,13 @@ var update = function(ms){
     }
     else
     {
-        buttons['destroy_building'].visible = false;
-        buttons['building_health'].visible = false;
-
-        buttons['build_farm'].visible = false;
-        buttons['build_woodcutter'].visible = false;
-        buttons['build_ktower'].visible = false;
-        buttons['build_kbarracks'].visible = false;
-        buttons['build_kgoldmine'].visible = false;
-                
-        buttons['build_temple'].visible = false;
-        buttons['build_mason'].visible = false;
-        buttons['build_stower'].visible = false;
-        buttons['build_sbarracks'].visible = false;
-        buttons['build_sgoldmine'].visible = false;
+        
     }
     
     /**
     * Worker's path
     */
-    
+    /*
     for(u in units)
     {
         if(units[u] && units[u].what == 'unit' && units[u].unit_class.GetType() == UnitType.WORKER)
@@ -494,6 +553,7 @@ var update = function(ms){
             
         }
     }
+    */
     
     /**
     * Updating building construction
@@ -536,6 +596,74 @@ var update = function(ms){
             }
         }
     }
+    
+    // Unit training
+    
+    if (current_game.units_queue.length > 0)
+    {
+        current_game.unit_training_ms += ms;    
+    
+        if (current_game.unit_training_ms > 3)
+        {
+            // find barracks
+            
+            var b_x = 0;
+            var b_y = 0;
+            
+            for (b in units)
+            {
+                if(units[b] && units[b].what == 'building' && units[b].building_class.GetType() == BuildingType.BARRACKS)
+                {
+                    var ran = Math.random();
+                    var decide = Math.random();
+                    
+                    if(decide < 0.3)
+                    {
+                        //bottom
+                        b_x = units[b].x + Math.floor(ran * units[b].building_class.size[0]);
+                        b_y = units[b].y + units[b].building_class.size[1];
+                      //  b_x = units[b].x;
+                       // b_y = units[b].y;    
+                    }
+                    else if(decide < 0.6)
+                    {
+                        // right
+                        b_x = units[b].x + units[b].building_class.size[0];
+                        b_y = units[b].y + Math.floor(ran * units[b].building_class.size[1]);
+                      //  b_x = units[b].x + units[b].building_class.size[0];
+                        //b_y = units[b].y + units[b].building_class.size[1];    
+                    }
+                    else
+                    {
+                        // bottom right
+                        b_x = units[b].x + units[b].building_class.size[0];
+                        b_y = units[b].y + units[b].building_class.size[1];    
+                    }
+                    
+                    
+                    
+                    
+                    
+                    
+                    break;
+                }
+            }
+            
+            current_game.unit_training_ms = 0;
+            
+            // fuck yeah unit is ready
+            var u = new Unit(current_game.units_queue[0].unitclass);
+            u.SetTile(get_tile_key(b_x, b_y));    
+            units.push(u);
+
+            current_game.units_queue.shift();
+            current_game.units_in_training--;
+        }
+    }
+    
+    
+    
+    
 }
 
 

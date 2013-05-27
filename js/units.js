@@ -100,6 +100,9 @@ unit_skeleton_worker.walkcycle.src = config.IMAGES_PATH + 'skeleton_worker_walk.
 unit_knights_worker = new UnitClass(GameSide.KNIGHTS, "Worker", false, 0.8, UnitType.WORKER, 30, 0);
 unit_knights_worker.walkcycle.src = config.IMAGES_PATH + 'knights_worker_walk32.png';
 
+unit_knights_knight = new UnitClass(GameSide.KNIGHTS, "Knight", false, 0.8, UnitType.KNIGHT, 30, 0);
+unit_knights_knight.walkcycle.src = config.IMAGES_PATH + 'knights_knight_walk32.png';
+
 
 /**
 * With this class create every single unit in the game

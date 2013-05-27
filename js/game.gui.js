@@ -30,6 +30,14 @@ function get_hint_message(name)
     else if (name == 'stower')
         return "Build tower (" + prices[name].gold + " gold, " + prices[name].material  + " stone)";
         
+    // Units
+    
+    // Skeletons    
+        
+    else if (name == 'kknight')
+        return "Recruit a knight (" + prices[name].gold + " gold, " + prices[name].food  + " food)";
+ 
+        
     else
         return '';
 }
@@ -135,6 +143,16 @@ buttons['build_sbarracks'].SetImage(0, GameSprites.btn_sbarracks);
 buttons['build_sbarracks'].click = function(){ build('sbarracks') };
 buttons['build_sbarracks'].x = box_x + 545;
 buttons['build_sbarracks'].y = box_y - 40;
+
+
+
+// Units buttons
+
+buttons['build_kknight'] = new Button(100, 100, 97, 98, get_hint_message('kknight'));
+buttons['build_kknight'].SetImage(0, GameSprites.btn_kknight);
+buttons['build_kknight'].click = function(){ train_unit('kknight'); };
+buttons['build_kknight'].x = box_x + 145;
+buttons['build_kknight'].y = box_y - 40;
 
 
 

@@ -27,7 +27,7 @@ b3.construction_progress = 100;
 b3.x = current_map.skeletons_start_x;
 b3.y = current_map.skeletons_start_y;
 
-b2 = new Building(building_knights_woodcutter);
+b2 = new Building(building_knights_barracks);
 b2.x = 12;
 b2.y = 4;
 
@@ -43,6 +43,10 @@ units.push(b3);
 var popups = {};
 
 popups['not_enough_to_build'] = new Popup("This building cannot be built.<br />You do not have enough materials.", 300, 150);
+
+popups['not_enough_to_train'] = new Popup("You cannot recruit this unit.<br />You do not have enough materials.", 300, 150);
+
+popups['max_three_units_in_training'] = new Popup("You cannot recruit more<br />than three units at the same time.", 300, 150);
 
 prices = {
 
@@ -69,7 +73,7 @@ prices = {
     },
 
     // Skeletons
-     'temple': {
+    'temple': {
         gold: 5,
         material: 10
     },
@@ -88,5 +92,11 @@ prices = {
     'sgoldmine': {
         gold: 5,
         material: 10
+    },
+    
+    // Units
+    'kknight': {
+        gold: 5,
+        food: 5
     },
 }

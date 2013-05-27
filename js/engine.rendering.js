@@ -103,6 +103,19 @@ var render = function (){
                                 Engine.ctx.globalAlpha = units[i].construction_progress / 100;
                             }
                             Engine.ctx.drawImage(GameSprites.tilesheet, (units[i].building_class.tilesheet_pos[0] + x) * config.tile_width, (units[i].building_class.tilesheet_pos[1] + y) * config.tile_height, config.tile_width, config.tile_height, units[i].x * config.tile_width - View.x + x * config.tile_width, units[i].y * config.tile_height - View.y + y * config.tile_height, config.tile_width, config.tile_height); 
+                            
+                            // barracks busy
+                            if (units[i].building_class.GetType() == BuildingType.BARRACKS
+                                &&
+                                current_game.units_in_training > 0
+                            )
+                            {
+                                if (Math.floor(units[i].building_class.size[0] / 2) == x && Math.floor(units[i].building_class.size[1] / 2) == y)
+                                {
+                                    Engine.ctx.drawImage(GameSprites.tilesheet, 20 * config.tile_width, 0 * config.tile_height, config.tile_width, config.tile_height, units[i].x * config.tile_width - View.x + x * config.tile_width, units[i].y * config.tile_height - View.y + y * config.tile_height, config.tile_width, config.tile_height);
+                                }
+                            }
+                            
                             if (units[i].construction_progress < 100)
                             {
                                 Engine.ctx.globalAlpha = 1.0;
@@ -218,6 +231,7 @@ var render = function (){
     {
         //set_font("Penshurst", 18, "0, 0, 0", "bold");
 
+        set_font("Tahoma", 12, "0, 0, 0", "normal");
         Engine.ctx.drawImage(GameSprites.gui_box, box_x, box_y);
         Engine.ctx.fillText(selected_units[0].building_class.GetName(), box_x + 20, box_y + 20);
 
@@ -261,8 +275,6 @@ var render = function (){
     if (current_game.constructing && current_game.building_built_class)
     {
         var b_class = current_game.building_built_class;
-        
-        
     
         var green_light = true;
         for (var i = 0; i < b_class.size[0] + 2; ++i)

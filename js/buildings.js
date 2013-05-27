@@ -104,7 +104,7 @@ building_skeletons_mine = new BuildingClass(GameSide.SKELETONS, "Gold Mine", Bui
 building_knights_main = new BuildingClass(GameSide.KNIGHTS, "Town Hall", BuildingType.MAIN, 80, [3, 3], [11, 25], 'townhall', 10);
 building_knights_farm = new BuildingClass(GameSide.KNIGHTS, "Farm", BuildingType.FARM, 40, [4, 3], [14, 25], 'farm', 30);
 building_knights_tower = new BuildingClass(GameSide.KNIGHTS, "Tower", BuildingType.TOWER, 100, [1, 2], [18, 25], 'ktower', 25);
-building_knights_barracks = new BuildingClass(GameSide.KNIGHTS, "Barracks", BuildingType.BARRACKS, 90, [4, 3], [19, 25], 'kbarracks', 45);
+building_knights_barracks = new BuildingClass(GameSide.KNIGHTS, "Barracks", BuildingType.BARRACKS, 90, [4, 3], [19, 25], 'kbarracks', 1);
 building_knights_woodcutter = new BuildingClass(GameSide.KNIGHTS, "Woodcutter", BuildingType.MATERIAL, 30, [2, 2], [23, 25], 'woodcutter', 2);
 building_knights_mine = new BuildingClass(GameSide.KNIGHTS, "Gold Mine", BuildingType.GOLDMINE, 45, [3, 3], [26, 24], 'kgoldmine', 30);
 

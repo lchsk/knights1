@@ -65,6 +65,8 @@ var Popup = function(message, width, height){
     this.show = function(){
         roundRect(Engine.ctx, pos_x, pos_y, this.w, this.h, 5, true, true, 'rgb(228, 221, 206)', 'black');
         //set_font("Penshurst", 16, "0, 0, 0", "normal");
+        //reset_font();
+        set_font("Tahoma", 16, "0, 0, 0", "normal");
         
         var lines = this.message.split('<br />');
         
@@ -114,8 +116,11 @@ function draw_hint(gui_item)
         set_font("Penshurst", 14, "0, 0, 0", "normal");
         Engine.ctx.fillText(gui_item.hint, gui_item.x + 10, base_y + 10);*/
         
+        
         roundRect(Engine.ctx, gui_item.x, base_y, hint_w, 30, 5, true, true, 'rgb(228, 221, 206)', 'black');
         //set_font("Penshurst", 14, "0, 0, 0", "normal");
+        
+        set_font("Tahoma", 12, "0, 0, 0", "normal");
         Engine.ctx.fillText(gui_item.hint, gui_item.x + 10, base_y + 10);
         
         /*
