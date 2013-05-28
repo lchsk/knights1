@@ -107,7 +107,7 @@ var render = function (){
                             // barracks busy
                             if (units[i].building_class.GetType() == BuildingType.BARRACKS
                                 &&
-                                current_game.units_in_training > 0
+                                units[i].units_in_training > 0
                             )
                             {
                                 if (Math.floor(units[i].building_class.size[0] / 2) == x && Math.floor(units[i].building_class.size[1] / 2) == y)

@@ -132,6 +132,10 @@ var Building = function(building_class){
     this.x = 0;
     this.y = 0;
     
+    // valid only for barracks
+    this.units_in_training = 0;
+    this.units_queue = [];
+    
     // unit class instance attached to this building
     this.worker = null;
 

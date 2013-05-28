@@ -139,7 +139,11 @@ function finalize_build()
 
 
 
-
+/**
+* Unit recruitment button callback
+* 
+* @param name
+*/
 function train_unit(name)
 {
     var gold = current_game.gold;
@@ -155,25 +159,33 @@ function train_unit(name)
             //
             //current_game.constructing = true;
             
-            if (current_game.units_queue.length < current_game.max_units_in_training)
+            // check if selected unit is barracks
+            if (selected_units.length == 1 && selected_units[0].what == 'building')
             {
-                // Knights
-                if (name == 'kknight')
-                {
-                    var tmp_obj = { 'unitclass': unit_knights_knight, 'name': 'kknight' }
-                    current_game.units_queue.push(tmp_obj);
-                    current_game.units_in_training++;
-                    
-                }   
                 
-                // substract price
+                
+                if (selected_units[0].units_queue.length < current_game.max_units_in_training)
+                {
+                    // Knights
+                    if (name == 'kknight')
+                    {
+                        var tmp_obj = { 'unitclass': unit_knights_knight, 'name': 'kknight' }
+                        selected_units[0].units_queue.push(tmp_obj);
+                        selected_units[0].units_in_training++;
+
+                    }   
+
+                    // substract price
                     current_game.gold -= prices[name].gold;
                     current_game.food -= prices[name].food;
+                }
+                else
+                {
+                    popups['max_three_units_in_training'].visible = true;
+                }
             }
-            else
-            {
-                popups['max_three_units_in_training'].visible = true;
-            }
+            
+            
             
         }
         else
@@ -599,10 +611,26 @@ var update = function(ms){
     
     // Unit training
     
-    if (current_game.units_queue.length > 0)
-    {
-        current_game.unit_training_ms += ms;    
+     for (b in units)
+     {
+        if(units[b] && units[b].what == 'building' && units[b].building_class.GetType() == BuildingType.BARRACKS)
+        {
+            if (units[b].units_queue.length > 0)
+            {
+                current_game.unit_training_ms += ms;
+                
+                break;
+            }
+                
+        }
+     }
     
+    //if (current_game.units_queue.length > 0)
+    {
+        
+        /**
+        * Next class of units is ready!
+        */
         if (current_game.unit_training_ms > 3)
         {
             // find barracks
@@ -625,7 +653,7 @@ var update = function(ms){
                       //  b_x = units[b].x;
                        // b_y = units[b].y;    
                     }
-                    else if(decide < 0.6)
+                    else if(decide < 0.7)
                     {
                         // right
                         b_x = units[b].x + units[b].building_class.size[0];
@@ -638,26 +666,28 @@ var update = function(ms){
                         // bottom right
                         b_x = units[b].x + units[b].building_class.size[0];
                         b_y = units[b].y + units[b].building_class.size[1];    
+                    }   
+                    
+                    //break;
+                    
+                    if (units[b].units_queue.length > 0)
+                    {
+                        // fuck yeah unit is ready
+                        var u = new Unit(units[b].units_queue[0].unitclass);
+                        u.SetTile(get_tile_key(b_x, b_y));    
+                        units.push(u);
+
+                        units[b].units_queue.shift();
+                        units[b].units_in_training--;
                     }
                     
-                    
-                    
-                    
-                    
-                    
-                    break;
                 }
+                
             }
             
             current_game.unit_training_ms = 0;
             
-            // fuck yeah unit is ready
-            var u = new Unit(current_game.units_queue[0].unitclass);
-            u.SetTile(get_tile_key(b_x, b_y));    
-            units.push(u);
-
-            current_game.units_queue.shift();
-            current_game.units_in_training--;
+            
         }
     }
     

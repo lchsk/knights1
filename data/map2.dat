@@ -80,11 +80,11 @@
  "orientation":"orthogonal",
  "properties":
     {
-     "food":"10",
-     "gold":"25",
+     "food":"100",
+     "gold":"55",
      "knights_start_x":"8",
      "knights_start_y":"3",
-     "material":"15",
+     "material":"55",
      "skeletons_start_x":"25",
      "skeletons_start_y":"14"
     },

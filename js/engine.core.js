@@ -29,8 +29,6 @@ var current_game = {
     
     // units training
     max_units_in_training : 3,
-    units_in_training : 0,
-    units_queue : [],
     
     // holds time till next unit in queue is ready
     unit_training_ms : 0
