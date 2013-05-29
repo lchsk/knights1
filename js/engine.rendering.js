@@ -156,8 +156,9 @@ var render = function (){
                 /**
                 * Draw this if unit's selected
                 */
-                if (selected_units.length == 1 && selected_units[0] == units[i])
-                    {
+                //if (selected_units.length == 1 && selected_units[0] == units[i])
+                if ($.inArray(units[i], selected_units) > -1)
+                {
                     //Engine.ctx.drawImage(GameSprites.selected_unit_image, units[i].GetCenterX() - View.x, units[i].GetCenterY() - View.y);
 
                     /**
@@ -216,7 +217,7 @@ var render = function (){
         //Engine.ctx.drawImage(GameSprites.tilesheet, btn_timber.tilesheet_pos[0] * btn_timber.w, btn_timber.tilesheet_pos[1] * btn_timber.h, btn_timber.w, btn_timber.h, btn_timber.x, btn_timber.y, btn_timber.w, btn_timber.h);
     }
     else if (current_game.player1_side_id == GameSide.SKELETONS)
-        {
+    {
         // stone
         //Engine.ctx.drawImage(GameSprites.tilesheet, GameSprites.data.stone[0] * 32, GameSprites.data.stone[1] * 32, 32, 32, config.view_width - 140, 0, 32, 32);
         Engine.ctx.drawImage(GameSprites.tilesheet, btn_stone.tilesheet_pos[0] * btn_stone.w, btn_stone.tilesheet_pos[1] * btn_stone.h, btn_stone.w, btn_stone.h, btn_stone.x, btn_stone.y, btn_stone.w, btn_stone.h);
@@ -273,6 +274,21 @@ var render = function (){
         Engine.ctx.stroke();
 
     }
+    
+    /**
+    * Drawing selection rectangle
+    * 
+    */
+    if (SelectionRect.on == true && SelectionRect.end_x > 0 && SelectionRect.end_y > 0)
+    {
+        Engine.ctx.beginPath();
+        Engine.ctx.rect(SelectionRect.start_x - View.x, SelectionRect.start_y - View.y, SelectionRect.end_x - SelectionRect.start_x + View.x, SelectionRect.end_y - SelectionRect.start_y + View.y);
+        //Engine.ctx.fillStyle = 'white';
+        //Engine.ctx.fill();
+        Engine.ctx.strokeStyle = 'white';
+        Engine.ctx.stroke();
+    }
+    
     
     // Building highlights (during preparing to build)
     if (current_game.constructing && current_game.building_built_class)

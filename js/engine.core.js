@@ -71,6 +71,7 @@ var Engine = Engine || (function(){
                 //this.canvas.position = "relative";
                 this.canvas.addEventListener("mousedown", handle_mouse_click, false);
                 this.canvas.addEventListener("mousemove", handle_mouse_move, false);
+                this.canvas.addEventListener("mouseup", handle_mouse_up, false);
 
                 div.appendChild(this.canvas);
                 div.appendChild(div_overlay);
@@ -221,6 +222,8 @@ var View = View || (function(){
 
 View.init(config.view_width, config.view_height);
 
+
+
 /*var GameMap = GameMap || (function(){
 return {
 init : function(w, h) {
@@ -230,7 +233,13 @@ this.height = h;
 }
 }());*/
 
+// holds .x, .y
 var mouse_pos = {};
+
+var mouse_state = {
+    left: false,
+    right : false
+}
 
 function handle_mouse_move(event)
 {
@@ -242,7 +251,7 @@ function handle_mouse_move(event)
     var lp = 0.05;
 
     if(pos.x > Math.round(config.view_width * rp)) // right edge
-        {
+    {
         View.move_dir = 2;
     }
     else if(pos.x < Math.round(config.view_width * lp)) // left
@@ -286,9 +295,31 @@ function handle_mouse_move(event)
 function handle_mouse_click(event)
 {
     if (event.button == 0)
-        lmb_click(event);
-    else if (event.button == 2)
+    {
+        mouse_state['left'] = true;
+        lmb_click(event); 
+    }
+    else
+    {
+        mouse_state['left'] = false;
+    }
+        
+    if (event.button == 2)
+    {
+        mouse_state['right'] = true;
         rmb_click(event);
+    }
+    else
+    {
+        mouse_state['right'] = false;
+    }
+        
+}
+
+function handle_mouse_up(event)
+{
+    mouse_state['left'] = false;
+    mouse_state['right'] = false;
 }
 
 /**
@@ -313,6 +344,25 @@ function rmb_click(event)
 
 }
 
+/**
+* Units selection rectangle
+* 
+* @type Object
+*/
+var SelectionRect = {
+    
+    // should draw selection rectangle?
+    on : false,
+    
+    // was mouse btn clicked last frame?
+    last_frame_on : false,
+    
+    start_x : 0,
+    start_y : 0,
+    end_x : 0,
+    end_y : 0
+}
+
 
 /**
 * Select unit after click
@@ -322,16 +372,18 @@ function rmb_click(event)
 */
 function select_units(x, y)
 {
+    
     selected_units.length = 0; 
+  
 
     for (var i = 0; i < units.length; ++i)
     {   
         if (units[i] && units[i].what == 'unit')
-            {
+        {
             if (units[i].unit_class.GetSide() == current_game.player1_side_id)
-                {
+            {
                 if (Calc.in_rect(x + View.x, y + View.y, units[i].GetRect()))
-                    {
+                {
                     selected_units.push (units[i]);
 
                     return true;
@@ -344,6 +396,44 @@ function select_units(x, y)
 }
 
 /**
+* Selecting multiple units using selection rect
+* 
+*/
+function select_multiple_units()
+{
+    
+    selected_units.length = 0;
+    
+    var rect = [ 
+        SelectionRect.start_x, SelectionRect.start_y, SelectionRect.end_x + View.x, SelectionRect.end_y + View.y
+    ];
+    console.log (rect);
+    
+    var count = 0;
+    
+    for (var i = 0; i < units.length; ++i)
+    {   
+        if (units[i] && units[i].what == 'unit')
+        {
+            if (units[i].unit_class.GetSide() == current_game.player1_side_id)
+            {  
+                
+                //console.log(units[i].x + " " + units[i].y);
+                if (Calc.in_rect(units[i].x, units[i].y, rect))
+                {
+                    selected_units.push(units[i]);
+                    count ++;
+                }    
+            }
+        }
+    }
+    
+    console.log(count);
+    
+    //return false;
+}
+
+/**
 * Select single building with a mouse click
 * 
 * @param x
@@ -353,14 +443,15 @@ function select_building(x, y)
 {
     selected_units.length = 0; 
 
+    
     for (var i = 0; i < units.length; ++i)
     {   
         if (units[i] && units[i].what == 'building')
-            {
+        {
             if (units[i].building_class.GetSide() == current_game.player1_side_id)
-                {
+            {
                 if (Calc.in_rect(x + View.x, y + View.y, units[i].GetRect()))
-                    {
+                {
                     selected_units.push (units[i]);
 
                     return true;

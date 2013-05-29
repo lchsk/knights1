@@ -8,7 +8,7 @@ var GameState = {
     sprites_loaded : false,
     
     // gotta count by hand :/
-    sprites_number : 22,
+    sprites_number : 25,
     // number of sprites already loaded
     sprites_ready : 0,
     

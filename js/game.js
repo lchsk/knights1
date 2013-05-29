@@ -166,18 +166,41 @@ function train_unit(name)
                 
                 if (selected_units[0].units_queue.length < current_game.max_units_in_training)
                 {
+                    var new_unit = false;
+                    
                     // Knights
-                    if (name == 'kknight')
+                    if (name == 'kwarrior')
                     {
-                        var tmp_obj = { 'unitclass': unit_knights_knight, 'name': 'kknight' }
+                        var tmp_obj = { 'unitclass': unit_knights_warrior, 'name': 'kwarrior' };
+                        new_unit = true;
+                    }   
+                    else if (name == 'karcher')
+                    {
+                        var tmp_obj = { 'unitclass': unit_knights_archer, 'name': 'karcher' };
+                        new_unit = true;
+                    }
+                    else if (name == 'kknight')
+                    {
+                        var tmp_obj = { 'unitclass': unit_knights_knight, 'name': 'kknight' };
+                        new_unit = true;
+                    }
+                    else if (name == 'kpaladin')
+                    {
+                        var tmp_obj = { 'unitclass': unit_knights_paladin, 'name': 'kpaladin' };
+                        new_unit = true;
+                    }
+                    
+                    if (new_unit == true)
+                    {
                         selected_units[0].units_queue.push(tmp_obj);
                         selected_units[0].units_in_training++;
+                        
+                        // substract price
+                        current_game.gold -= prices[name].gold;
+                        current_game.food -= prices[name].food;
+                    }
 
-                    }   
-
-                    // substract price
-                    current_game.gold -= prices[name].gold;
-                    current_game.food -= prices[name].food;
+                    
                 }
                 else
                 {
@@ -199,7 +222,7 @@ function train_unit(name)
 
 
 
-//u1 = new Unit(unit_skeleton_worker);
+u1 = new Unit(unit_knights_paladin);
 u2 = new Unit(unit_knights_worker);
 
 //u1.health = 17;
@@ -208,11 +231,12 @@ u2 = new Unit(unit_knights_worker);
 //u2.y = 100;
 
 
+units.push(u1);
 units.push(u2);
 
 
-
-u2.SetTile(32);
+u1.SetTile(32);
+u2.SetTile(35);
 
 
 
@@ -254,6 +278,12 @@ delete graph[i][rem_key];
 */
 lmb_click = function(event){
     event.preventDefault();
+    
+    /**
+    * Selection rect
+    */
+    SelectionRect.start_x = mouse_pos.x + View.x;
+    SelectionRect.start_y = mouse_pos.y + View.y;
 
     var search = true;
     
@@ -403,7 +433,42 @@ var find_workers_path = function(u)
 
 var update = function(ms){
 
-    //console.log(ms);
+    // Selection Rect
+    if (SelectionRect.on == true)
+    {
+        SelectionRect.end_x = mouse_pos.x;
+        SelectionRect.end_y = mouse_pos.y;
+    }
+    
+    if (mouse_state['left'] == true)
+    {
+        SelectionRect.on = true;       
+    }
+    //else if (SelectionRect.start_x != -1)
+    else if (SelectionRect.end_x - SelectionRect.start_x > 10 && SelectionRect.end_y - SelectionRect.start_y > 10)
+    {
+        // End of selection
+        SelectionRect.on = false;  
+        
+        select_multiple_units();
+        
+        SelectionRect.start_x = -1;
+        SelectionRect.start_y = -1;
+        SelectionRect.end_x = -1;
+        SelectionRect.end_y = -1;
+        
+        
+    }
+    else
+    {
+        SelectionRect.on = false;
+        
+        SelectionRect.start_x = -1;
+        SelectionRect.start_y = -1;
+        SelectionRect.end_x = -1;
+        SelectionRect.end_y = -1;
+    }
+
     /**
     * Movement
     */
@@ -433,7 +498,10 @@ var update = function(ms){
     
     function hide_buttons()
     {
+        buttons['build_kwarrior'].visible = false;
+        buttons['build_karcher'].visible = false;
         buttons['build_kknight'].visible = false;
+        buttons['build_kpaladin'].visible = false;
         
         buttons['build_farm'].visible = false;
             buttons['build_woodcutter'].visible = false;
@@ -465,7 +533,10 @@ var update = function(ms){
             
             if (current_game.player1_side_id == GameSide.KNIGHTS)
             {
+                buttons['build_kwarrior'].visible = true;
+                buttons['build_karcher'].visible = true;
                 buttons['build_kknight'].visible = true;
+                buttons['build_kpaladin'].visible = true;
             }
         }
         
@@ -494,6 +565,8 @@ var update = function(ms){
         }
         else
         {
+            hide_buttons();
+            /*
             buttons['build_farm'].visible = false;
             buttons['build_woodcutter'].visible = false;
             buttons['build_ktower'].visible = false;
@@ -504,12 +577,13 @@ var update = function(ms){
             buttons['build_mason'].visible = false;
             buttons['build_stower'].visible = false;
             buttons['build_sbarracks'].visible = false;
-            buttons['build_sgoldmine'].visible = false;
+            buttons['build_sgoldmine'].visible = false;*/
+            
         }
     }
     else
     {
-        
+        hide_buttons();
     }
     
     /**
@@ -617,8 +691,7 @@ var update = function(ms){
                 current_game.unit_training_ms += ms;
                 
                 break;
-            }
-                
+            }     
         }
      }
     

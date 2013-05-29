@@ -95,8 +95,23 @@ prices = {
     },
     
     // Units
-    'kknight': {
+    'kwarrior': {
         gold: 5,
         food: 5
+    },
+    
+    'karcher': {
+        gold: 7,
+        food: 6
+    },
+   
+    'kknight': {
+        gold: 10,
+        food: 10
+    },
+
+    'kpaladin': {
+        gold: 20,
+        food: 15
     },
 }

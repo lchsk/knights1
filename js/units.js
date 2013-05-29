@@ -100,8 +100,17 @@ unit_skeleton_worker.walkcycle.src = config.IMAGES_PATH + 'skeleton_worker_walk.
 unit_knights_worker = new UnitClass(GameSide.KNIGHTS, "Worker", false, 0.8, UnitType.WORKER, 30, 0);
 unit_knights_worker.walkcycle.src = config.IMAGES_PATH + 'knights_worker_walk32.png';
 
-unit_knights_knight = new UnitClass(GameSide.KNIGHTS, "Knight", false, 0.8, UnitType.KNIGHT, 30, 0);
+unit_knights_warrior = new UnitClass(GameSide.KNIGHTS, "Warrior", true, 0.8, UnitType.WARRIOR, 40, 20);
+unit_knights_warrior.walkcycle.src = config.IMAGES_PATH + 'knights_warrior_walk32.png';
+
+unit_knights_archer = new UnitClass(GameSide.KNIGHTS, "Archer", true, 0.9, UnitType.ARCHER, 30, 25);
+unit_knights_archer.walkcycle.src = config.IMAGES_PATH + 'knights_archer_walk32.png';
+
+unit_knights_knight = new UnitClass(GameSide.KNIGHTS, "Knight", true, 0.7, UnitType.KNIGHT, 60, 60);
 unit_knights_knight.walkcycle.src = config.IMAGES_PATH + 'knights_knight_walk32.png';
+
+unit_knights_paladin = new UnitClass(GameSide.KNIGHTS, "Paladin", true, 0.5, UnitType.SPECIAL, 100, 90);
+unit_knights_paladin.walkcycle.src = config.IMAGES_PATH + 'knights_paladin_walk32.png';
 
 
 /**

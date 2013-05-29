@@ -37,8 +37,10 @@ var GameSprites = {
     btn_sgoldmine : new Image(),
     
     // units
+    btn_kwarrior : new Image(),
+    btn_karcher : new Image(),
     btn_kknight : new Image(),
-    
+    btn_kpaladin : new Image(),
 
     // drawing characters health
     life_strip : {
@@ -110,6 +112,9 @@ GameSprites.btn_sgoldmine.src = config.IMAGES_PATH + 'btn_sgoldmine.png';
 
 // Units
 
+GameSprites.btn_kwarrior.src = config.IMAGES_PATH + 'btn_kwarrior.png';
+GameSprites.btn_karcher.src = config.IMAGES_PATH + 'btn_karcher.png';
 GameSprites.btn_kknight.src = config.IMAGES_PATH + 'btn_kknight.png';
+GameSprites.btn_kpaladin.src = config.IMAGES_PATH + 'btn_kpaladin.png';
 }
 

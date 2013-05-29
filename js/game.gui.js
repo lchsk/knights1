@@ -34,8 +34,14 @@ function get_hint_message(name)
     
     // Skeletons    
         
+    else if (name == 'kwarrior')
+        return "Recruit a warrior (" + prices[name].gold + " gold, " + prices[name].food  + " food)";
+    else if (name == 'karcher')
+        return "Recruit an archer (" + prices[name].gold + " gold, " + prices[name].food  + " food)";
     else if (name == 'kknight')
         return "Recruit a knight (" + prices[name].gold + " gold, " + prices[name].food  + " food)";
+    else if (name == 'kpaladin')
+        return "Recruit a paladin (" + prices[name].gold + " gold, " + prices[name].food  + " food)";
  
         
     else
@@ -148,11 +154,29 @@ buttons['build_sbarracks'].y = box_y - 40;
 
 // Units buttons
 
+buttons['build_kwarrior'] = new Button(100, 100, 97, 98, get_hint_message('kwarrior'));
+buttons['build_kwarrior'].SetImage(0, GameSprites.btn_kwarrior);
+buttons['build_kwarrior'].click = function(){ train_unit('kwarrior'); };
+buttons['build_kwarrior'].x = box_x + 145;
+buttons['build_kwarrior'].y = box_y - 40;
+
+buttons['build_karcher'] = new Button(100, 100, 97, 98, get_hint_message('karcher'));
+buttons['build_karcher'].SetImage(0, GameSprites.btn_karcher);
+buttons['build_karcher'].click = function(){ train_unit('karcher'); };
+buttons['build_karcher'].x = box_x + 245;
+buttons['build_karcher'].y = box_y - 40;
+
 buttons['build_kknight'] = new Button(100, 100, 97, 98, get_hint_message('kknight'));
 buttons['build_kknight'].SetImage(0, GameSprites.btn_kknight);
 buttons['build_kknight'].click = function(){ train_unit('kknight'); };
-buttons['build_kknight'].x = box_x + 145;
+buttons['build_kknight'].x = box_x + 345;
 buttons['build_kknight'].y = box_y - 40;
+
+buttons['build_kpaladin'] = new Button(100, 100, 97, 98, get_hint_message('kpaladin'));
+buttons['build_kpaladin'].SetImage(0, GameSprites.btn_kpaladin);
+buttons['build_kpaladin'].click = function(){ train_unit('kpaladin'); };
+buttons['build_kpaladin'].x = box_x + 445;
+buttons['build_kpaladin'].y = box_y - 40;
 
 
 
