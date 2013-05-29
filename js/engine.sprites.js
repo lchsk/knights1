@@ -59,13 +59,35 @@ var GameSprites = {
 
 }
 
-GameSprites.selected_unit_image.src = config.IMAGES_PATH + 'unit_selected.png';
+function inc_ready_sprites(){
+    GameState.sprites_ready++;
+}
+
+(function(){
+    
+    for (i in GameSprites)
+    {      
+        if (GameSprites[i] instanceof HTMLImageElement)
+        {
+            GameSprites[i].onload = inc_ready_sprites;
+        }
+    }
+}());
+
+function load_sprites()
+{
+    GameSprites.selected_unit_image.src = config.IMAGES_PATH + 'unit_selected.png';
 
 GameSprites.life_strip[100].src = config.IMAGES_PATH + 'life_strip_100.png';
+GameSprites.life_strip[100].onload = inc_ready_sprites;
 GameSprites.life_strip[80].src = config.IMAGES_PATH + 'life_strip_80.png';
+GameSprites.life_strip[80].onload = inc_ready_sprites;
 GameSprites.life_strip[60].src = config.IMAGES_PATH + 'life_strip_60.png';
+GameSprites.life_strip[60].onload = inc_ready_sprites;
 GameSprites.life_strip[40].src = config.IMAGES_PATH + 'life_strip_40.png';
+GameSprites.life_strip[40].onload = inc_ready_sprites;
 GameSprites.life_strip[20].src = config.IMAGES_PATH + 'life_strip_20.png';
+GameSprites.life_strip[20].onload = inc_ready_sprites;
 
 GameSprites.tilesheet.src = config.IMAGES_PATH + 'knights_tiles.png';
 
@@ -89,3 +111,5 @@ GameSprites.btn_sgoldmine.src = config.IMAGES_PATH + 'btn_sgoldmine.png';
 // Units
 
 GameSprites.btn_kknight.src = config.IMAGES_PATH + 'btn_kknight.png';
+}
+

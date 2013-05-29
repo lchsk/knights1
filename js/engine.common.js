@@ -1,4 +1,90 @@
 
+var GameState = {
+    
+    // all is loaded - game on!
+    loaded : false,
+    
+    map_loaded : false,
+    sprites_loaded : false,
+    
+    // gotta count by hand :/
+    sprites_number : 22,
+    // number of sprites already loaded
+    sprites_ready : 0,
+    
+    // loading screen
+    screen : new Image(),
+    screen_ready : false,
+    
+    
+    
+}
+GameState.screen.src = config.IMAGES_PATH + 'loading_screen.png';
+GameState.screen.onload = function(){
+    GameState.screen_ready = true; 
+    load_sprites();
+};
+
+var load_game = function(){
+    
+    //console.log(GameState.sprites_ready);
+    
+    if (GameState.map_loaded == true && GameState.sprites_loaded == true)
+    {
+        GameState.loaded = true;
+    }
+    
+    // mark that the map is loaded
+    if (GameState.sprites_ready == GameState.sprites_number)
+        GameState.sprites_loaded = true; 
+}
+
+var draw_load_screen = function(){
+    
+    // background
+    Engine.ctx.beginPath();
+    Engine.ctx.fillStyle = 'rgb(102, 102, 101)';
+    Engine.ctx.rect(0, 0, config.view_width, config.view_height);
+    
+    Engine.ctx.fill(); 
+    //Engine.ctx.stroke();
+    
+    var x = 0;
+    var y = (config.view_height - 250) / 2;
+    
+    // line 1
+    Engine.ctx.strokeStyle = 'rgb(0, 0, 0)';
+    Engine.ctx.moveTo(0, y);
+    Engine.ctx.lineTo(config.view_width, y);
+    Engine.ctx.stroke();
+    
+    // line 2
+    Engine.ctx.moveTo(0, y + 250);
+    Engine.ctx.lineTo(config.view_width, y + 250);
+    Engine.ctx.stroke();
+    
+    if (GameState.screen_ready == true)
+    {
+        Engine.ctx.drawImage(GameState.screen, x, y);    
+    }
+    
+    // loading stats
+    set_font("Tahoma", 12, "255, 255, 255", "normal");
+    var pct = Math.round(GameState.sprites_ready / GameState.sprites_number * 100);
+    
+    var str_pct = pct + '%';
+    
+    Engine.ctx.fillText(str_pct, 550, 320);
+    
+    // progress bar
+    Engine.ctx.beginPath();
+    Engine.ctx.rect(590, 320, pct, 16);
+    Engine.ctx.fillStyle = 'white';
+    Engine.ctx.fill();
+    Engine.ctx.strokeStyle = 'white';
+    Engine.ctx.stroke();
+}
+
 var Direction = {
     N : 0,
 

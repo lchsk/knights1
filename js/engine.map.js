@@ -155,7 +155,10 @@ var CurrentMap = function()
                 {
                     ctx.tiles_excluded_from_graph.push(i);
                 }       
-            }   
+            }  
+            
+            // mark that the map is loaded
+            GameState.map_loaded = true; 
         }
 
         $.ajax({ url: url, cache: false, async: false }).done(callback);

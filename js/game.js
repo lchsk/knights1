@@ -183,10 +183,7 @@ function train_unit(name)
                 {
                     popups['max_three_units_in_training'].visible = true;
                 }
-            }
-            
-            
-            
+            } 
         }
         else
         {
@@ -703,15 +700,27 @@ var main = function (){
     var now = Date.now();
     var delta = now - then;
 
-    update(delta / 1000);
-
-    View.move();
-
-    if (Date.now() - current_game.tiles_drawing_time > 2)
+    if (GameState.loaded == true)
     {
-        render();
+        update(delta / 1000);
+
+        View.move();
+
+        //if (Date.now() - current_game.tiles_drawing_time > 2)
+        {
+            render();
+        }
+        current_game.tiles_drawing_time = Date.now();
     }
-    current_game.tiles_drawing_time = Date.now();
+    else
+    {
+        draw_load_screen(); 
+        
+        load_game();
+        
+        
+    }
+    
     
 
     then = now;

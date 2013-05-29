@@ -55,7 +55,7 @@ var render = function (){
                         //console.log(t_x + " " + t_y);
 
                         if (t_y >= 0 && t_x >= 0)
-                        Engine.ctx.drawImage(GameSprites.tilesheet, t_x, t_y, config.tile_width, config.tile_height, x - offset_x, y - offset_y, config.tile_width, config.tile_height);    
+                            Engine.ctx.drawImage(GameSprites.tilesheet, t_x, t_y, config.tile_width, config.tile_height, x - offset_x, y - offset_y, config.tile_width, config.tile_height);    
                     }
                 }
 
@@ -102,17 +102,20 @@ var render = function (){
                             {
                                 Engine.ctx.globalAlpha = units[i].construction_progress / 100;
                             }
+                            
                             Engine.ctx.drawImage(GameSprites.tilesheet, (units[i].building_class.tilesheet_pos[0] + x) * config.tile_width, (units[i].building_class.tilesheet_pos[1] + y) * config.tile_height, config.tile_width, config.tile_height, units[i].x * config.tile_width - View.x + x * config.tile_width, units[i].y * config.tile_height - View.y + y * config.tile_height, config.tile_width, config.tile_height); 
                             
                             // barracks busy
-                            if (units[i].building_class.GetType() == BuildingType.BARRACKS
-                                &&
-                                units[i].units_in_training > 0
-                            )
+                            if (units[i].building_class.GetType() == BuildingType.BARRACKS && units[i].units_in_training > 0)
                             {
                                 if (Math.floor(units[i].building_class.size[0] / 2) == x && Math.floor(units[i].building_class.size[1] / 2) == y)
                                 {
-                                    Engine.ctx.drawImage(GameSprites.tilesheet, 20 * config.tile_width, 0 * config.tile_height, config.tile_width, config.tile_height, units[i].x * config.tile_width - View.x + x * config.tile_width, units[i].y * config.tile_height - View.y + y * config.tile_height, config.tile_width, config.tile_height);
+                                    var tx = units[i].x * config.tile_width - View.x + x * config.tile_width;
+                                    var ty = units[i].y * config.tile_height - View.y + y * config.tile_height;
+                                    
+                                    Engine.ctx.drawImage(GameSprites.tilesheet, 20 * config.tile_width, 0 * config.tile_height, config.tile_width, config.tile_height, tx, ty, config.tile_width, config.tile_height);
+                                    
+                                    Engine.ctx.fillText(units[i].units_in_training, tx + 50, ty + 50); 
                                 }
                             }
                             
@@ -134,7 +137,7 @@ var render = function (){
             }
         }
         else if (units[i] && units[i].what == 'material')
-            {
+        {
             Engine.ctx.drawImage(GameSprites.tilesheet, (units[i].material_class.tilesheet_pos[0]) * config.tile_width, units[i].material_class.tilesheet_pos[1] * config.tile_height, config.tile_width, config.tile_height, units[i].x * config.tile_width - View.x, units[i].y * config.tile_height - View.y, config.tile_width, config.tile_height);
         }
     }
@@ -147,9 +150,9 @@ var render = function (){
     for (var i = 0; i < units.length; i++)
     {
         if (units[i] && units[i].what == 'unit')
-            {
+        {
             if (units[i] && units[i].unit_class.image && units[i].DrawUnit())
-                {
+            {
                 /**
                 * Draw this if unit's selected
                 */
@@ -199,7 +202,7 @@ var render = function (){
     Engine.ctx.fillText(current_game.gold, config.view_width - 160, 10);
 
     if (current_game.player1_side_id == GameSide.KNIGHTS)
-        {
+    {
         // timber
         Engine.ctx.drawImage(GameSprites.tilesheet, btn_timber.tilesheet_pos[0] * btn_timber.w, btn_timber.tilesheet_pos[1] * btn_timber.h, btn_timber.w, btn_timber.h, btn_timber.x, btn_timber.y, btn_timber.w, btn_timber.h);
         //Engine.ctx.drawImage(GameSprites.tilesheet, GameSprites.data.timber[0] * 32, GameSprites.data.timber[1] * 32, 32, 32, config.view_width - 140, 0, 32, 32);
