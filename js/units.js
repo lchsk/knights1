@@ -140,8 +140,8 @@ var Unit = function(unit_class){
     this.x = 0;
     this.y = 0;
 
-    this.width = 64;
-    this.height = 64;
+    this.width = 32;
+    this.height = 32;
     
     this.size = 32;
     
@@ -151,11 +151,11 @@ var Unit = function(unit_class){
     * Coordinates of the center of the unit
     */
     this.GetCenterX = function(){
-        return this.x - 32;   
+        return this.x - 16;   
     }
     
     this.GetCenterY = function(){
-        return this.y - 32;   
+        return this.y - 16;   
     }
     
     this.DrawUnit = function(){
@@ -163,7 +163,8 @@ var Unit = function(unit_class){
     }
 
     this.GetRect = function(){
-        return [this.GetCenterX(), this.GetCenterY(), this.GetCenterX() + this.width, this.GetCenterY() + this.height];
+        //return [this.GetCenterX(), this.GetCenterY(), this.GetCenterX() + this.width, this.GetCenterY() + this.height];
+        return [this.x, this.y, this.x + this.width, this.y + this.height];
     }
 
     /**
@@ -354,14 +355,13 @@ var Unit = function(unit_class){
                 {
                     this.x = tile[1] * 32;
                     this.y = tile[0] * 32;
-                }
+                }          
                 
-                
-                this.current_tile = this.road[0];
-                      
+                this.current_tile = this.road[0];        
                 
                 this.road_travelled = 0;
                 this.road.shift();      
+                
                 //alert(this.road.length);
             }
 

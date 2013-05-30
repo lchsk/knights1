@@ -401,7 +401,7 @@ function select_units(x, y)
 */
 function select_multiple_units()
 {
-    
+    console.log('selecting multiple units...');
     selected_units.length = 0;
     
     var rect = [ 
@@ -421,8 +421,12 @@ function select_multiple_units()
                 //console.log(units[i].x + " " + units[i].y);
                 if (Calc.in_rect(units[i].x, units[i].y, rect))
                 {
-                    selected_units.push(units[i]);
-                    count ++;
+                    // up to 5 units can be selected
+                    if (count < 5)
+                    {
+                        selected_units.push(units[i]);
+                        count ++;
+                    } 
                 }    
             }
         }

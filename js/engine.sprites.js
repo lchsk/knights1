@@ -50,7 +50,11 @@ var GameSprites = {
         40 : new Image(),
         20 : new Image()
     },
+    
     tilesheet : new Image(),
+    
+    explosion1 : new Image(),
+    
     data : {
         gold : [ 7, 11 ],
         timber : [7, 12],
@@ -116,5 +120,7 @@ GameSprites.btn_kwarrior.src = config.IMAGES_PATH + 'btn_kwarrior.png';
 GameSprites.btn_karcher.src = config.IMAGES_PATH + 'btn_karcher.png';
 GameSprites.btn_kknight.src = config.IMAGES_PATH + 'btn_kknight.png';
 GameSprites.btn_kpaladin.src = config.IMAGES_PATH + 'btn_kpaladin.png';
+
+GameSprites.explosion1.src = config.IMAGES_PATH + 'explosion1.png';
 }
 

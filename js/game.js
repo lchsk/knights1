@@ -26,6 +26,8 @@ function destroy_building()
             current_map.b_tiles = buildings_tiles();
             update_build_map();
             build_graph();
+            
+                
 
             break;
         }
@@ -352,7 +354,7 @@ rmb_click = function(event){
 
                 //var tile_start = get_tile(u.x, u.y);
                 var tile_start = u.current_tile;
-                console.log(tile_start + " : " + get_tile_by_key(tile_start));
+                //console.log(tile_start + " : " + get_tile_by_key(tile_start));
 
                 var target_x = Calc.constrain(event.clientX + View.x, 0, View.map_width);
                 var target_y = Calc.constrain(event.clientY + View.y, 0, View.map_height);
@@ -365,15 +367,79 @@ rmb_click = function(event){
                 {
                     var path = dijkstra.find_path(graph, parseInt(tile_start), get_tile_key_mat(tile_finish));
                     u.road = path;
-                    console.log(path);
+                    //console.log(path);
                 }
                 catch(e)
                 {
                     // path not found
                     u.road.length = 0;
-                    console.log("Path not found");
+                    //console.log("Path not found");
                 }
             }   
+        }
+    }
+    else if (selected_units.length > 1)
+    {
+        for (i in selected_units)
+        {
+            if (selected_units[i].what == 'unit')
+            {
+                if ( ! selected_units[i].IsMoving())
+                {
+                    //var tile_start = get_tile(u.x, u.y);
+                    var tile_start = selected_units[i].current_tile;
+                    //console.log(tile_start + " : " + get_tile_by_key(tile_start));
+
+                    var target_x = Calc.constrain(event.clientX + View.x, 0, View.map_width);
+                    var target_y = Calc.constrain(event.clientY + View.y, 0, View.map_height);
+
+                    var base_tile_finish = get_tile(target_x, target_y);
+                    
+                    if (i == 0)
+                        tile_finish = base_tile_finish;
+                    else if (i == 1)
+                        tile_finish = get_tile(target_x + 32, target_y);
+                    else if (i == 2)
+                        tile_finish = get_tile(target_x - 32, target_y);
+                    else if (i == 3)
+                        tile_finish = get_tile(target_x, target_y + 32);
+                    else if (i == 4)
+                        tile_finish = get_tile(target_x, target_y - 32);
+
+                    var last_working_target = base_tile_finish;
+                    
+                    var find = function(target){
+                        try
+                        {
+                            var path = dijkstra.find_path(graph, parseInt(tile_start), get_tile_key_mat(target));
+                            selected_units[i].road = path;  
+                            
+                            return true;
+                        }
+                        catch(e)
+                        {
+                            // path not found
+                            selected_units[i].road.length = 0;
+                            console.log("Path not found");
+                            
+                            return false;
+                        }
+                    }
+
+                    if ( ! find (tile_finish))
+                    {
+                        
+                        if (i > 0)
+                        {
+                            find (last_working_target);
+                        }
+                    } 
+                    else
+                    {
+                        last_working_target = tile_finish;
+                    }              
+                }
+            }
         }
     }
     
@@ -431,6 +497,81 @@ var find_workers_path = function(u)
 }
 
 
+/**
+    * Finalizing movement of multiple units
+    * 
+    */
+function finalize_units_movement(u)
+{
+    if (u.IsMoving())
+    {
+                if (u.road.length == 2)
+                {
+                    //units[i].road_travelled = 0;
+
+                    var tile_start = u.current_tile;
+                    
+                    var tile_finish = u.road[1] + 1;
+
+                    try
+                    {
+                        var path = dijkstra.find_path(graph, parseInt(tile_start), (tile_finish));
+                        u.road = path;
+                        console.log('success');
+                    }
+                    catch(e)
+                    {
+                        console.log('fail');
+                        // path not found
+                        // dont change current path
+                        //u.road.length = 0;
+                    }
+                }
+    }
+    
+    /*
+    var first_left = false;
+    for (var i in units)
+    {
+        if (units[i] && units[i].what == 'unit')
+        {
+            
+            if (units[i].IsMoving() && ! first_left)
+            {
+                first_left = true;
+                continue;
+            }
+                     
+            if (units[i].IsMoving())
+            {
+                if (units[i].road.length == 2)
+                {
+                    //units[i].road_travelled = 0;
+
+                    var tile_start = units[i].current_tile;
+                    
+                    var tile_finish = units[i].road[1];
+
+                    try
+                    {
+                        var path = dijkstra.find_path(graph, parseInt(tile_start), (tile_finish));
+                        units[i].road = path;
+                        console.log('success');
+                    }
+                    catch(e)
+                    {
+                        console.log('fail');
+                        // path not found
+                        // dont change current path
+                        //u.road.length = 0;
+                    }
+                }
+            }
+        }
+    }*/
+}
+
+
 var update = function(ms){
 
     // Selection Rect
@@ -444,24 +585,31 @@ var update = function(ms){
     {
         SelectionRect.on = true;       
     }
-    //else if (SelectionRect.start_x != -1)
-    else if (SelectionRect.end_x - SelectionRect.start_x > 10 && SelectionRect.end_y - SelectionRect.start_y > 10)
-    {
+    //else if (SelectionRect.start_x != -1 && SelectionRect.end_x != -1)
+    //else if (SelectionRect.end_x - SelectionRect.start_x > 10 && SelectionRect.end_y - SelectionRect.start_y > 10)
+    //else
+    //{
         // End of selection
-        SelectionRect.on = false;  
+        /*SelectionRect.on = false;  
         
         select_multiple_units();
+        console.log(SelectionRect);
         
         SelectionRect.start_x = -1;
         SelectionRect.start_y = -1;
         SelectionRect.end_x = -1;
-        SelectionRect.end_y = -1;
+        SelectionRect.end_y = -1;*/
         
         
-    }
+    //}
     else
     {
         SelectionRect.on = false;
+     
+        //console.log(SelectionRect);
+     
+        if(SelectionRect.end_x - SelectionRect.start_x > 1 || SelectionRect.end_y - SelectionRect.start_y > 1)
+            select_multiple_units();
         
         SelectionRect.start_x = -1;
         SelectionRect.start_y = -1;
@@ -496,6 +644,10 @@ var update = function(ms){
         }
     }
     
+    
+    
+    
+    
     function hide_buttons()
     {
         buttons['build_kwarrior'].visible = false;
@@ -514,6 +666,9 @@ var update = function(ms){
             buttons['build_stower'].visible = false;
             buttons['build_sbarracks'].visible = false;
             buttons['build_sgoldmine'].visible = false;
+            
+        buttons['destroy_building'].visible = false;
+        buttons['building_health'].visible = false;
     }
 
     /** 
