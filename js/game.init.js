@@ -11,6 +11,8 @@ var GameConst = {
     
     goldmine_period : 5,
     
+    farm_period : 5,
+    
     // how far a worker can go to get to his material source
     furthest_possible_material : 9,
     

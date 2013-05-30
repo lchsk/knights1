@@ -24,9 +24,18 @@ var AnimationClass = function(name, tilesheet, rows_n, columns_n, frame_start, f
     this.speed = speed;
 }
 
-
+/**
+* Possible animations
+*/
 anim_explosion_1 = new AnimationClass('explosion1', GameSprites.explosion1, 5, 8, 0, 51, 128, 128, 1 / 30);
 
+/**
+* Class for every single animation
+* 
+* @param animation_class
+* @param x
+* @param y
+*/
 var Animation = function(animation_class, x, y){
     
     var that = this;
@@ -40,6 +49,7 @@ var Animation = function(animation_class, x, y){
     
     this._ms = 0;
     
+    // drawing current frame
     this.render = function()
     {
         if (this.playing)
@@ -52,11 +62,13 @@ var Animation = function(animation_class, x, y){
                 col * this.animation_class.frame_width,
                 row * this.animation_class.frame_height, 
                 this.animation_class.frame_width, this.animation_class.frame_height, 
-                x, y, 
+                x - View.x, y - View.y, 
                 this.animation_class.frame_width, this.animation_class.frame_height
             );
         }
     }
+    
+
 
     this.play = function(ms)
     {

@@ -20,7 +20,7 @@ function destroy_building()
             current_game.gold += Math.floor(price.gold / 2);
             current_game.material += Math.floor(price.material / 2);
             
-            animations.push(new Animation(anim_explosion_1, selected_units[0].x * config.tile_width - View.x, selected_units[0].y * config.tile_width - View.y));
+            animations.push(new Animation(anim_explosion_1, selected_units[0].x * config.tile_width, selected_units[0].y * config.tile_width));
             
             delete units[i];
             selected_units.length = 0;
@@ -810,6 +810,7 @@ var update = function(ms){
     
     collect_material(ms);
     collect_gold(ms);
+    collect_food(ms);
     
     
     /**
