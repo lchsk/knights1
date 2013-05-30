@@ -17,7 +17,7 @@
         // Game
             'config.js', 'calc.js', 'dijkstra.js', 
             'engine.common.js', 'engine.map.js', 'engine.core.js', 'engine.sprites.js', 'engine.pathfinding.js', 'engine.rendering.js',
-            'gui.js', 'units.js', 'buildings.js', 'materials.js', 'animations.js', 'graphics.js', 'game.init.js', 'game.gui.js', 'game.js'
+            'gui.js', 'units.js', 'buildings.js', 'materials.js', 'animations.js', 'graphics.js', 'game.init.js', 'game.gui.js', 'game.building.material.js', 'game.building.goldmine.js', 'game.js'
         );
         
         $html = '';

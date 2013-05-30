@@ -9,8 +9,13 @@ var GameConst = {
     // how often worker (woodcutter, mason) is gonna get material [s]
     worker_period : 5,
     
+    goldmine_period : 5,
+    
     // how far a worker can go to get to his material source
     furthest_possible_material : 9,
+    
+    // how far gold can be to collect
+    furthest_possible_gold : 7,
 }
 
 
@@ -64,6 +69,8 @@ popups['max_three_units_in_training'] = new Popup("You cannot recruit more<br />
 popups['no_wood_for_woodcutter'] = new Popup("Woodcutter cannot find trees nearby.<br />Build woodcutter's hut closer<br />to the trees.", 300, 150);
 
 popups['no_stone_for_mason'] = new Popup("Mason cannot find stone nearby.<br />Build mason's hut closer to the stone.", 300, 150);
+
+popups['no_mountains_nearby'] = new Popup("Goldmine cannot work because<br />it's too far away from the mountains.", 300, 150);
 
 prices = {
 
