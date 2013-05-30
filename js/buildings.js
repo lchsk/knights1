@@ -136,6 +136,12 @@ var Building = function(building_class){
     this.units_in_training = 0;
     this.units_queue = [];
     
+    // for woodcutter etc. 
+    this.work_ms = 0;
+    
+    // target for woodcutter (trees)
+    this.target = -1;
+    
     // unit class instance attached to this building
     this.worker = null;
 

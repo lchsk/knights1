@@ -52,6 +52,8 @@ var graph = {};
 */
 var selected_units = [];
 
+var animations = [];
+
 
 var Engine = Engine || (function(){
         return {

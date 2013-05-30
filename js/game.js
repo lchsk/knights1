@@ -20,6 +20,8 @@ function destroy_building()
             current_game.gold += Math.floor(price.gold / 2);
             current_game.material += Math.floor(price.material / 2);
             
+            animations.push(new Animation(anim_explosion_1, selected_units[0].x * config.tile_width, selected_units[0].y * config.tile_width));
+            
             delete units[i];
             selected_units.length = 0;
 
@@ -27,7 +29,7 @@ function destroy_building()
             update_build_map();
             build_graph();
             
-                
+            
 
             break;
         }
@@ -572,8 +574,17 @@ function finalize_units_movement(u)
 }
 
 
+
 var update = function(ms){
 
+    for (var i in animations)
+    {
+        if (animations[i])
+        {
+            animations[i].play(ms);
+        }
+    }
+    
     // Selection Rect
     if (SelectionRect.on == true)
     {
@@ -792,6 +803,59 @@ var update = function(ms){
         }
     }
     */
+    
+    
+    /**
+    * Woodcutters / mason work
+    */
+    for (var b in units)
+    {
+        if (units[b] && units[b].what == 'building')
+        {
+            if (units[b].building_class.GetType() == BuildingType.MATERIAL)
+            {
+                units[b].work_ms += ms;
+                
+                if (units[b].work_ms > 1)
+                {
+                    units[b].work_ms = 0;
+                    
+                    // check if worker has a target
+                    if (units[b].target == -1)
+                    {
+                        // gotta find target
+                        
+                        if (current_game.player1_side_id == GameSide.KNIGHTS)
+                            var look_for = 'tree';
+                        else if (current_game.player1_side_id == GameSide.SKELETONS)
+                            var look_for = 'stone';
+                        else
+                            var look_for = '';
+                        
+                        var closest_material = 100;
+                        
+                        for (var m in units)
+                        {
+                            if (units[m] && units[m].what == 'material')
+                            {
+                                if (units[m].material_class.type == look_for)
+                                {
+                                    // compute distance
+                                    var bx = units[b].x = config.tile_width;
+                                    var by = units[b].y = config.tile_height;
+                                    var ux = units[m].x = config.tile_width;
+                                    var uy = units[m].y = config.tile_height;
+                                }
+                            }
+                        }
+                    }
+                }
+            }       
+        }
+        
+    }
+    
+    
     
     /**
     * Updating building construction

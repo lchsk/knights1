@@ -340,6 +340,14 @@ var render = function (){
         
     }
     
+    for (var i in animations)
+    {
+        if (animations[i])
+        {
+            animations[i].render();
+        }
+    }
+    
 
     // Hints
     for (var b in buttons)
