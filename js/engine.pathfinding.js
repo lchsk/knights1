@@ -47,11 +47,15 @@ function update_build_map()
     for (var i = 0; i < config.map_tiles_w * config.map_tiles_h; ++i)
     {
         current_map.build_map[i] = 0;
+        //and my map -ss
+        current_map.build_map_with_unit[i] = 0;
     }
     
     for (var i = 0; i < current_map.b_tiles.length; ++i)
     {
         current_map.build_map[current_map.b_tiles[i]] = 1;
+        //and my map -ss
+        current_map.build_map_with_unit[current_map.b_tiles[i]] = 1;
     }
 }
 

@@ -17,6 +17,8 @@ var CurrentMap = function()
     // has to be later modified (buildings, trees etc. data)
     // 
     this.build_map = null;
+    //this map holds this same whats upper map  plus unit position - ss
+    this.build_map_with_unit = null;
     
     this.b_tiles = null;
 
@@ -124,9 +126,16 @@ var CurrentMap = function()
             // build map
             ctx.build_map = layers[0];
             
+            //copy build_map to build_map_with_unit - ss
+            ctx.build_map_with_unit = {};
+            for (var i in ctx.build_map)
+                ctx.build_map_with_unit[i] = ctx.build_map[i];
+            
+            
             for (var i = 0; i < config.map_tiles_w * config.map_tiles_h; ++i)
             {
                 ctx.build_map[i] = 0;
+                ctx.build_map_with_unit[i] = 0;
             }
             
             // get positionf of mountain tiles and exclude them from the graph

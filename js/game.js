@@ -341,21 +341,24 @@ rmb_click = function(event){
 
         if (u.what == 'unit')
         {
-
-            if (u.IsMoving())
+            //after this change we can change order for soldier when do another order- ss
+            //    if (u.IsMoving())
             {
                 //u.road.splice(1, u.road.length - 2);
                 //alert(u.road);
                 //return 0;
             }
-            else
+            //else
                 {
 
                 //u.road.length = 0;
-                u.road_travelled = 0;
+                //u.road_travelled = 0;
 
                 //var tile_start = get_tile(u.x, u.y);
-                var tile_start = u.current_tile;
+                //var tile_start = get_tile(u.x, u.y);
+                //new way to get current_tile - ss
+                var tile_start = u.get_start_tile_to_walk();
+                console.log(tile_start + " : " + get_tile_by_key(tile_start));
                 //console.log(tile_start + " : " + get_tile_by_key(tile_start));
 
                 var target_x = Calc.constrain(event.clientX + View.x, 0, View.map_width);
@@ -368,14 +371,15 @@ rmb_click = function(event){
                 try
                 {
                     var path = dijkstra.find_path(graph, parseInt(tile_start), get_tile_key_mat(tile_finish));
-                    u.road = path;
-                    //console.log(path);
+                    //new way to set path to purpose - ss
+                    u.set_new_road(path);
+                //   console.log(path);
                 }
                 catch(e)
                 {
                     // path not found
                     u.road.length = 0;
-                    //console.log("Path not found");
+                    console.log("Path not found");
                 }
             }   
         }
@@ -386,10 +390,12 @@ rmb_click = function(event){
         {
             if (selected_units[i].what == 'unit')
             {
-                if ( ! selected_units[i].IsMoving())
+                //The same situation as above - ss
+              //  if ( ! selected_units[i].IsMoving())
                 {
                     //var tile_start = get_tile(u.x, u.y);
-                    var tile_start = selected_units[i].current_tile;
+                    //var tile_start = selected_units[i].current_tile;
+                    var tile_start = selected_units[i].get_start_tile_to_walk();
                     //console.log(tile_start + " : " + get_tile_by_key(tile_start));
 
                     var target_x = Calc.constrain(event.clientX + View.x, 0, View.map_width);
@@ -414,7 +420,7 @@ rmb_click = function(event){
                         try
                         {
                             var path = dijkstra.find_path(graph, parseInt(tile_start), get_tile_key_mat(target));
-                            selected_units[i].road = path;  
+                            selected_units[i].set_new_road(path);
                             
                             return true;
                         }

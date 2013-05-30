@@ -279,6 +279,118 @@ var Unit = function(unit_class){
         return [0, 0];
     }
 
+    
+    /*
+    *    sets new road for unit -ss
+    */
+    this.set_new_road = function(tabWithNewRoad) {
+        if(this.road.length > 1)
+        {
+                var first = this.road[0];
+            //if(tabWithNewRoad.length == 1  || second != tabWithNewRoad[0])
+            //{
+        //        var second = this.road[1];
+            //    tabWithNewRoad.unshift(second);
+            //}
+                tabWithNewRoad.unshift(first);
+            this.road = tabWithNewRoad;
+        }
+        else
+        {
+            this.road = tabWithNewRoad;
+        }
+    }
+
+    /*
+    * get tile form unit start his road -ss
+    */    
+    this.get_start_tile_to_walk = function() {
+        if(this.road.length > 1)
+        {
+            return this.road[1];
+        }
+        else if(this.IsMoving())
+        {
+            return this.road[0];
+        }
+        else
+        {
+            return this.current_tile;
+        }
+    }
+    
+    /*
+    * search position where unit can stop when purpose title is full of other thinks-ss
+    */
+    this.search_last_road_position = function(curr_position,purpose_position) {
+        
+        if(current_map.build_map[purpose_position] == 0 )
+        {
+            return purpose_position;
+        }
+        else 
+        {    
+            search_way  = function(start,end) {
+                if(start == end)
+                    return 0;
+                else if( start > end)
+                    return -1;
+                else
+                    return 1;
+            }
+        
+            var pos_start = get_tile_by_key(curr_position);
+            var pos_end = get_tile_by_key(purpose_position);
+            var purpose_position_h_normaly = pos_end[1];
+            var purpose_position_v_normaly = pos_end[0];
+            var walking_horizontally = search_way(pos_start[1],purpose_position_h_normaly);
+            var walking_vertictally = search_way(pos_start[0],purpose_position_v_normaly);
+            
+            var v = purpose_position_v_normaly;
+            var h = purpose_position_h_normaly;
+            
+            var curr_pos_for_v = v * config.map_tiles_w + purpose_position_h_normaly;
+            var curr_pos_for_h = purpose_position_v_normaly * config.map_tiles_w + h;
+            
+            
+            for(;;)
+            {
+                v += walking_vertictally;
+                curr_pos_for_v += walking_vertictally;
+                
+                if(v < current_map.height && v > -1)
+                {
+                    if(current_map.build_map[curr_pos_for_v] == 0 )
+                    {
+                        return curr_pos_for_v;
+                    }
+                }
+                else
+                {
+                    walking_vertictally = -walking_vertictally;
+                    curr_pos_for_v = v*config.map_tiles_w+purpose_position_h_normaly;
+                }
+                
+                h += walking_horizontally;
+                curr_pos_for_h += walking_horizontally;
+                
+                if(h < current_map.height && h > -1)
+                {
+                    if(current_map.build_map[curr_pos_for_h] == 0 )
+                    {
+                        return curr_pos_for_h;
+                    }
+                }
+                else
+                {
+                    walking_horizontally = -walking_horizontally;
+                    curr_pos_for_h = purpose_position_v_normaly * config.map_tiles_w + h;
+                }
+            }
+        }
+    }
+    
+    
     /**
     * Make unit move
     */
@@ -355,12 +467,40 @@ var Unit = function(unit_class){
                 {
                     this.x = tile[1] * 32;
                     this.y = tile[0] * 32;
-                }          
+                }      
                 
-                this.current_tile = this.road[0];        
+                //resets place where building  can be builds -ss
+                current_map.build_map_with_unit[this.current_tile] = 0;    
+                
+                this.current_tile = this.road[0];       
+                
+                //resets place where building  can be builds -ss
+                current_map.build_map_with_unit[this.current_tile] = 0; 
                 
                 this.road_travelled = 0;
-                this.road.shift();      
+                this.road.shift();    
+                
+                // this group of lines set place where we can`t build and check that some  build is creating on our road-ss
+                if(this.road.length > 0)
+                {
+                    current_map.build_map_with_unit[this.road[0]] =1;  
+                    if(this.road.length > 1)
+                    {
+                        current_map.build_map_with_unit[this.road[1]] =1; 
+                        //check that some build is on road
+                        if(current_map.build_map[this.road[1]] != 0)
+                        {
+                            // If yes, we search new road to purpose, but we must check that we have free last tiles on road
+                            var first  =  this.road[0];
+                            var last = this.road[this.road.length-1];
+                            
+                            console.log("normal " + last);
+                            last = this.search_last_road_position(first,last);
+                            console.log("after " + last);
+                            this.road = dijkstra.find_path(graph, first, last);
+                        }
+                    }
+                }  
                 
                 //alert(this.road.length);
             }
@@ -385,7 +525,11 @@ var Unit = function(unit_class){
 
         }
         else
+        {
+            //set place where we can`t build -ss
+            current_map.build_map_with_unit[this.current_tile] =1;
             this.current_frame = 0;
+        }
     }
 
 

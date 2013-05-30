@@ -22,7 +22,7 @@ function collect_food(ms)
                     if(units[b].construction_progress >= 100)
                     {
                         // just work!
-                        units[b].work_ms += (ms / 10);
+                        units[b].work_ms += (ms / 8);
                         
                         if (units[b].work_ms > GameConst.farm_period)
                         {

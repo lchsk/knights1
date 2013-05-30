@@ -299,45 +299,53 @@ var render = function (){
         var b_class = current_game.building_built_class;
     
         var green_light = true;
+        
+        //this code is in loop I don`t have idea why ? so now it is before loop :D - maj inglisz its onli maj inglish :P
+        
+        // tile position of the cursor
+        var w = Math.floor((mouse_pos.x + View.x) / 32);
+        var h = Math.floor((mouse_pos.y + View.y) / 32);
+    //    var h_base = h; -- because we doesnt use h 
+            
+        // where to draw on the screen
+        var pos_x = w * 32 - View.x;
+        var pos_y = h * 32 - (View.y);
+        var pos_y_base = pos_y;
+        
+        current_game.construction_x = w + 1;
+        current_game.construction_y = h + 1;
+                
+        //var tx = Math.floor((mouse_pos.x + View.x) / 32);
+        //var ty = Math.floor((mouse_pos.y + View.y) / 32);
+          
+        
         for (var i = 0; i < b_class.size[0] + 2; ++i)
         {
+            //    h = h_base;
+            pos_y = pos_y_base;
+            var tile = h * config.map_tiles_w + w;
+            
             for (var j = 0; j < b_class.size[1] + 2; ++j)
             {
-                // tile position of the cursor
-                var w = Math.floor((mouse_pos.x + View.x) / 32) + i;
-                var h = Math.floor((mouse_pos.y + View.y) / 32) + j;
-            
-                // where to draw on the screen
-                var pos_x = w * 32 - View.x;
-                var pos_y = h * 32 - (View.y);
-                
-                if (i == 0 && j == 0)
+                if (current_map.build_map_with_unit[tile] == 0)
                 {
-                    current_game.construction_x = Math.floor((mouse_pos.x + View.x) / 32) + 1;
-                    current_game.construction_y = Math.floor((mouse_pos.y + View.y) / 32) + 1;
-                }
-                
-                //var tx = Math.floor((mouse_pos.x + View.x) / 32);
-                //var ty = Math.floor((mouse_pos.y + View.y) / 32);
-                
-                var tile = h * config.map_tiles_w + w;
-        
-                //console.log(w + " " + h);
-                
-                if (current_map.build_map[tile] == 0)
-                {
-                    // green - can be built
-                    
+                    // green - can be built                    
                     Engine.ctx.drawImage(GameSprites.tilesheet, 17 * 32, 0 * 32, 32, 32, pos_x, pos_y, 32, 32);
                 }
-                //else
-                if (current_map.build_map[tile] == 1)
+                else
+               // if (current_map.build_map_with_unit[tile] == 1)
                 {
                     // red - cannot be built
                     green_light = false;
                     Engine.ctx.drawImage(GameSprites.tilesheet, 18 * 32, 0 * 32, 32, 32, pos_x, pos_y, 32, 32);
                 }
+                tile += config.map_tiles_w;
+                pos_y += 32;
+            //    ++h;
+
             }
+            pos_x += 32;
+            ++w;
         }
         current_game.construction_allowed = green_light;
         
