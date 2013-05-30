@@ -1,4 +1,17 @@
 
+/**
+* Misc constants for a gameplay
+* 
+* @type Object
+*/
+var GameConst = {
+    
+    // how often worker (woodcutter, mason) is gonna get material [s]
+    worker_period : 5,
+    
+    // how far a worker can go to get to his material source
+    furthest_possible_material : 9,
+}
 
 
 Sprites.init();
@@ -47,6 +60,10 @@ popups['not_enough_to_build'] = new Popup("This building cannot be built.<br />Y
 popups['not_enough_to_train'] = new Popup("You cannot recruit this unit.<br />You do not have enough materials.", 300, 150);
 
 popups['max_three_units_in_training'] = new Popup("You cannot recruit more<br />than three units at the same time.", 300, 150);
+
+popups['no_wood_for_woodcutter'] = new Popup("Woodcutter cannot find trees nearby.<br />Build woodcutter's hut closer<br />to the trees.", 300, 150);
+
+popups['no_stone_for_mason'] = new Popup("Mason cannot find stone nearby.<br />Build mason's hut closer to the stone.", 300, 150);
 
 prices = {
 

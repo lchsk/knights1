@@ -121,6 +121,6 @@ GameSprites.btn_karcher.src = config.IMAGES_PATH + 'btn_karcher.png';
 GameSprites.btn_kknight.src = config.IMAGES_PATH + 'btn_kknight.png';
 GameSprites.btn_kpaladin.src = config.IMAGES_PATH + 'btn_kpaladin.png';
 
-GameSprites.explosion1.src = config.IMAGES_PATH + 'explosion1.png';
+GameSprites.explosion1.src = config.IMAGES_PATH + 'explosion1.png'; // 26
 }
 

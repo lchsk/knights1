@@ -140,7 +140,10 @@ var Building = function(building_class){
     this.work_ms = 0;
     
     // target for woodcutter (trees)
-    this.target = -1;
+    this.target = null;
+    this.target_status = -1;
+    // distance to the target
+    this.target_dist = -1;
     
     // unit class instance attached to this building
     this.worker = null;

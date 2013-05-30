@@ -136,9 +136,12 @@ var render = function (){
                 }    
             }
         }
-        else if (units[i] && units[i].what == 'material')
+        else if (units[i] && units[i].what == 'material' && units[i].visible == true)
         {
+            
             Engine.ctx.drawImage(GameSprites.tilesheet, (units[i].material_class.tilesheet_pos[0]) * config.tile_width, units[i].material_class.tilesheet_pos[1] * config.tile_height, config.tile_width, config.tile_height, units[i].x * config.tile_width - View.x, units[i].y * config.tile_height - View.y, config.tile_width, config.tile_height);
+            
+            //Engine.ctx.fillText(i, units[i].x * config.tile_width - View.x, units[i].y * config.tile_height - View.y);
         }
     }
 
@@ -362,6 +365,6 @@ var render = function (){
     for (var p in popups)
     {
         if (popups[p].visible)
-            popups[p].show();
+            popups[p].draw();
     }
 }

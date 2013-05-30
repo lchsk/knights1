@@ -62,7 +62,15 @@ var Popup = function(message, width, height){
     var pos_x = (View.width - this.w) / 2;
     var pos_y = (View.height - this.h) / 2;
     
+    this.hide = function(){
+        that.visible = false;
+    }
+    
     this.show = function(){
+        that.visible = true;
+    }
+    
+    this.draw = function(){
         roundRect(Engine.ctx, pos_x, pos_y, this.w, this.h, 5, true, true, 'rgb(228, 221, 206)', 'black');
         //set_font("Penshurst", 16, "0, 0, 0", "normal");
         //reset_font();

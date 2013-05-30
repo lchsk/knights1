@@ -20,7 +20,7 @@ function destroy_building()
             current_game.gold += Math.floor(price.gold / 2);
             current_game.material += Math.floor(price.material / 2);
             
-            animations.push(new Animation(anim_explosion_1, selected_units[0].x * config.tile_width, selected_units[0].y * config.tile_width));
+            animations.push(new Animation(anim_explosion_1, selected_units[0].x * config.tile_width - View.x, selected_units[0].y * config.tile_width - View.y));
             
             delete units[i];
             selected_units.length = 0;
@@ -455,7 +455,7 @@ rmb_click = function(event){
     }
 }
 
-
+/*
 var find_workers_path = function(u)
 {
     //u.workers_job[0] = -1;
@@ -497,12 +497,13 @@ var find_workers_path = function(u)
         }
     }
 }
-
+*/
 
 /**
     * Finalizing movement of multiple units
     * 
     */
+    /*
 function finalize_units_movement(u)
 {
     if (u.IsMoving())
@@ -530,7 +531,7 @@ function finalize_units_movement(u)
                     }
                 }
     }
-    
+  */  
     /*
     var first_left = false;
     for (var i in units)
@@ -570,8 +571,8 @@ function finalize_units_movement(u)
                 }
             }
         }
-    }*/
-}
+    }
+}*/
 
 
 
@@ -678,8 +679,8 @@ var update = function(ms){
             buttons['build_sbarracks'].visible = false;
             buttons['build_sgoldmine'].visible = false;
             
-        buttons['destroy_building'].visible = false;
-        buttons['building_health'].visible = false;
+        //buttons['destroy_building'].visible = false;
+        //buttons['building_health'].visible = false;
     }
 
     /** 
@@ -750,6 +751,8 @@ var update = function(ms){
     else
     {
         hide_buttons();
+        buttons['destroy_building'].visible = false;
+        buttons['building_health'].visible = false;
     }
     
     /**
@@ -808,20 +811,20 @@ var update = function(ms){
     /**
     * Woodcutters / mason work
     */
-    for (var b in units)
+    
+    for (var b = 0; b < units.length; ++b)
     {
         if (units[b] && units[b].what == 'building')
         {
             if (units[b].building_class.GetType() == BuildingType.MATERIAL)
             {
-                units[b].work_ms += ms;
                 
-                if (units[b].work_ms > 1)
-                {
-                    units[b].work_ms = 0;
+                // woodcutter/mason position
+                var bx = units[b].x;
+                var by = units[b].y;       
                     
                     // check if worker has a target
-                    if (units[b].target == -1)
+                    if (units[b].target_status == -1)
                     {
                         // gotta find target
                         
@@ -833,23 +836,85 @@ var update = function(ms){
                             var look_for = '';
                         
                         var closest_material = 100;
+                        var target = -100;
+            
                         
-                        for (var m in units)
+                        // looking for closest available material source
+                        for (var m = 0; m < units.length; ++m)
                         {
-                            if (units[m] && units[m].what == 'material')
+                            if (units[m] && typeof units[m] != 'undefined' && units[m].what == 'material' && units[m].visible == true)
                             {
                                 if (units[m].material_class.type == look_for)
                                 {
                                     // compute distance
-                                    var bx = units[b].x = config.tile_width;
-                                    var by = units[b].y = config.tile_height;
-                                    var ux = units[m].x = config.tile_width;
-                                    var uy = units[m].y = config.tile_height;
+                                    
+                                    var ux = units[m].x;
+                                    var uy = units[m].y;
+                                    
+                                    var dist = Math.sqrt(Math.pow(Math.abs(ux - bx), 2) + Math.pow(Math.abs(uy - by), 2));    
+                                    
+                                    if (dist <= closest_material)
+                                    {
+                                        closest_material = dist;
+                                        target = units[m];
+                                        
+                                    }
                                 }
                             }
                         }
+                        
+                        // check if found sth
+                        if (closest_material < GameConst.furthest_possible_material)
+                        {
+                            // found
+                            units[b].target = target;
+                            units[b].target_status = 1;
+                            units[b].target_distance = closest_material;
+                        }
+                        else
+                        {
+                            units[b].target = null;
+                            units[b].target_status = -100;
+                            
+                            if (current_game.player1_side_id == GameSide.KNIGHTS)
+                                popups['no_wood_for_woodcutter'].show();
+                            else if (current_game.player1_side_id == GameSide.SKELETONS)
+                                popups['no_stone_for_mason'].show();
+                        }
+                        console.log(units[b].target + " " + closest_material);
                     }
-                }
+                    else if(units[b].target_status == 1 && units[b].construction_progress >= 100)
+                    {
+                        // just work!
+                        units[b].work_ms += (ms / 100 + units[b].target_distance / 100);
+                        
+                        if (units[b].work_ms > GameConst.worker_period)
+                        {
+                            units[b].work_ms = 0;
+                            
+                            
+                            if (units[b].target.what == 'material' && units[b].target.supply > 0)
+                            {
+                                current_game.material++;
+                                console.log('work!');
+                                // tree or stone
+                                units[b].target.supply -= 150;
+                            }
+                            
+                            if (units[b].target.what == 'material' && units[b].target.supply <= 0)
+                            // (units[units[b].target].supply <= 0)
+                            {
+                                //var tm = units[b].target;
+                                units[b].target.visible = false;
+                                
+                                //delete units[tm];
+                                
+                                units[b].target = null; // gotta find new source 
+                                units[b].target_status = -1;
+                            }
+                        }
+                    }
+                
             }       
         }
         
@@ -890,7 +955,7 @@ var update = function(ms){
                     units.push(u);
                     units[b].worker = u;
                     
-                    find_workers_path(u);
+                    //find_workers_path(u);
                 }
                 
                 
