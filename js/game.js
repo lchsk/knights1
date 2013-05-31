@@ -194,6 +194,28 @@ function train_unit(name)
                         new_unit = true;
                     }
                     
+                    // Skeletons
+                    else if (name == 'swarrior')
+                    {
+                        var tmp_obj = { 'unitclass': unit_skeletons_warrior, 'name': 'swarrior' };
+                        new_unit = true;
+                    }   
+                    else if (name == 'sarcher')
+                    {
+                        var tmp_obj = { 'unitclass': unit_skeletons_archer, 'name': 'sarcher' };
+                        new_unit = true;
+                    }
+                    else if (name == 'sknight')
+                    {
+                        var tmp_obj = { 'unitclass': unit_skeletons_knight, 'name': 'sknight' };
+                        new_unit = true;
+                    }
+                    else if (name == 'smonk')
+                    {
+                        var tmp_obj = { 'unitclass': unit_skeletons_monk, 'name': 'smonk' };
+                        new_unit = true;
+                    }
+                    
                     if (new_unit == true)
                     {
                         selected_units[0].units_queue.push(tmp_obj);
@@ -226,21 +248,45 @@ function train_unit(name)
 
 
 
-u1 = new Unit(unit_knights_paladin);
-u2 = new Unit(unit_knights_worker);
+u1 = new Unit(unit_knights_archer);
+u2 = new Unit(unit_knights_warrior);
+u3 = new Unit(unit_knights_knight);
+u4 = new Unit(unit_knights_paladin);
+u5 = new Unit(unit_knights_worker);
 
-//u1.health = 17;
+u6 = new Unit(unit_skeletons_archer);
+u7 = new Unit(unit_skeletons_warrior);
+u8 = new Unit(unit_skeletons_knight);
+u9 = new Unit(unit_skeletons_monk);
+u10 = new Unit(unit_skeletons_worker);
 
-//u2.x = 100;
-//u2.y = 100;
+
 
 
 units.push(u1);
 units.push(u2);
+units.push(u3);
+units.push(u4);
+units.push(u5);
+units.push(u6);
+units.push(u7);
+units.push(u8);
+units.push(u9);
+units.push(u10);
 
 
-u1.SetTile(32);
-u2.SetTile(35);
+u1.SetTile(8);
+u2.SetTile(9);
+u3.SetTile(10);
+u4.SetTile(11);
+u5.SetTile(12);
+
+
+u6.SetTile(30);
+u7.SetTile(31);
+u8.SetTile(32);
+u9.SetTile(33);
+u10.SetTile(34);
 
 
 
@@ -339,7 +385,7 @@ rmb_click = function(event){
         // selected unit
         var u = selected_units[0];
 
-        if (u.what == 'unit')
+        if (u.what == 'unit' && u.visible)
         {
             //after this change we can change order for soldier when do another order- ss
             //    if (u.IsMoving())
@@ -365,12 +411,39 @@ rmb_click = function(event){
                 var target_y = Calc.constrain(event.clientY + View.y, 0, View.map_height);
 
                 var tile_finish = get_tile(target_x, target_y);
+                
+                
+                var tile_finish_key = get_tile_key_mat (tile_finish);
 
-                //console.log(graph);
+                // check if the user clicked on a opposing unit
+                var try_attack = false;
+                
+                for (var i = 0; i < units.length; ++i)
+                {
+                    if (units[i] && units[i].what == 'unit' && units[i].unit_class.GetSide() == current_game.player2_side_id && units[i].visible && units[i].health > 0)
+                    {
+                        if (units[i].current_tile == tile_finish_key)
+                        {
+                            // clicked on a opposing unit
+                            try_attack = true;
+                            //u.attack_target = units[i];
+                            console.log('found an enemy');                   
+                            break;
+                        } 
+                    }
+                }
 
                 try
                 {
-                    var path = dijkstra.find_path(graph, parseInt(tile_start), get_tile_key_mat(tile_finish));
+                    var path = dijkstra.find_path (graph, parseInt (tile_start), get_tile_key_mat (tile_finish));
+                    u.try_attack = try_attack;
+                    
+                    if (try_attack)
+                    {
+                        path.pop();
+                        
+                    }
+                    
                     //new way to set path to purpose - ss
                     u.set_new_road(path);
                 //   console.log(path);
@@ -379,6 +452,7 @@ rmb_click = function(event){
                 {
                     // path not found
                     u.road.length = 0;
+                    u.try_attack = false;
                     console.log("Path not found");
                 }
             }   
@@ -584,6 +658,7 @@ function finalize_units_movement(u)
 
 var update = function(ms){
 
+    // Animations
     for (var i in animations)
     {
         if (animations[i])
@@ -591,6 +666,205 @@ var update = function(ms){
             animations[i].play(ms);
         }
     }
+    
+    
+    // attack!
+    
+    var start_attack = function(attacking_unit, defending_unit, direction){
+        
+        if (attacking_unit.unit_class.GetSide() != defending_unit.unit_class.GetSide() && attacking_unit.visible && defending_unit.visible)
+        {
+            attacking_unit.current_dir = direction;
+            attacking_unit.fighting = true;
+            attacking_unit.attack_target = defending_unit;
+            
+            //console.log ('att: ' + attacking_unit.current_tile + " def: " + defending_unit.current_tile);
+        }
+        
+    }
+    
+    // cleaning up units array
+    for (var i = 0; i < units.length; ++i)
+    {
+        if (units[i] && units[i].health <= 0 && units[i].played_death)
+        {
+            //units[i].visible = false;
+            //delete units[i];
+        }
+        else if (units[i] && units[i].health <= 0 && ! units[i].played_death && units[i].visible)
+        {
+            // play death animation
+            
+            units[i].fighting = false;
+            
+            if ( ! units[i].dying)
+                units[i].current_frame = 0;
+            
+            units[i].dying = true;
+            
+            units[i].current_dir = 0;
+        }
+    }
+
+    
+    
+    
+    // Finding enemy nearby
+    
+    for (var i = 0; i < units.length; ++i)
+    {
+        var fight = false;
+        
+        // Subtracting from health (if the unit is fighting)
+        if (units[i].attack_target != null)
+        {
+            if (units[i].attack_target.health > 0 && units[i].health > 0 && units[i].attack_target.visible)
+            {
+                var attack_power = (units[i].unit_class.GetAttack() / 200 - units[i].attack_target.unit_class.GetStrength() / 600);
+                if (attack_power < 0)
+                    attack_power = 0;
+                
+                units[i].attack_target.health -= attack_power;
+                        
+                if (units[i].attack_target.health <= 0)
+                {
+                    units[i].fighting = false;
+                    if (units[i].attack_target != null)
+                    {
+                        units[i].attack_target.fighting = false;
+                        units[i].attack_target.attack_target = null;
+                        units[i].attack_target = null;
+                    }
+                    
+                    
+                }
+            }
+        }
+        
+        
+        // users unit
+        //if (units[i] && units[i].what == 'unit' && units[i].unit_class.GetSide() == current_game.player1_side_id && units[i].unit_class.IsWarrior())
+        if (units[i] && units[i].what == 'unit' && units[i].unit_class.IsWarrior() && units[i].visible && units[i].health > 0)
+        {
+            
+            
+            var de = units[i].current_tile + 1;
+            var dw = units[i].current_tile - 1;
+            var dn = units[i].current_tile - config.map_tiles_w;
+            var ds = units[i].current_tile + config.map_tiles_w;
+            
+            for (var j = 0; j < units.length; ++j)
+            {
+                //if (units[j] && units[j].what == 'unit' && units[j].unit_class.GetSide() == current_game.player2_side_id && units[j].health >= 0)
+                if (units[j] && units[j].what == 'unit' && units[j].health >= 0 && units[j].visible && ! units[j].played_death && ! units[j].dying)
+                {
+                    var t_dir = -1;
+                    
+                    if (units[j].current_tile == de)
+                        t_dir = Direction.E;
+                    if (units[j].current_tile == dw)
+                        t_dir = Direction.W;
+                    if (units[j].current_tile == dn)
+                        t_dir = Direction.N;
+                    if (units[j].current_tile == ds)
+                        t_dir = Direction.S;
+                        
+                    if (t_dir != -1)
+                    {
+                        fight = true;
+                        
+                        start_attack (units[j], units[i], reverse_direction(t_dir));
+                        start_attack (units[i], units[j], t_dir);
+                        
+                        break;
+                    }
+                    
+                    /*
+                    if ((units[i].current_tile + 1) == units[j].current_tile)
+                    {
+                        fight = true;
+                        
+                        start_attack (units[i], units[j], Direction.E);  
+                        start_attack (units[j], units[i], Direction.W);  
+                        
+                        //break;
+                    }
+                    else if ((units[i].current_tile - 1) == units[j].current_tile)
+                    {
+                        fight = true;
+                        
+                        start_attack (units[i], units[j], Direction.W);
+                        start_attack (units[j], units[i], Direction.E);
+                        
+                        //break;
+                    }
+                    else if ((units[i].current_tile - config.map_tiles_w) == units[j].current_tile)
+                    {
+                        fight = true;
+                        
+                        start_attack (units[i], units[j], Direction.N);
+                        start_attack (units[j], units[i], Direction.S);
+                        
+                        //break;
+                    }
+                    else if ((units[i].current_tile + config.map_tiles_w) == units[j].current_tile)
+                    {
+                        fight = true;
+                        
+                        start_attack (units[i], units[j], Direction.S);
+                        start_attack (units[j], units[i], Direction.N);
+                        
+                        //break;
+                    }
+                    else
+                    {
+                        // reset - this pair is not fighting
+                        fight = false;
+                        
+                        //attacking_unit.current_dir = direction;
+                        units[i].fighting = false;
+                        units[j].fighting = false;
+                        units[i].attack_target = null;
+                        units[j].attack_target = null;
+                        
+                    }*/
+                }
+    
+            } 
+        }
+        
+        // Reset..
+        if (fight == false && units[i] && units[i].what == 'unit' && units[i].visible && units[i].health > 0)
+        {
+            units[i].fighting = false;
+            if (units[i].attack_target != null)
+            {
+                units[i].attack_target.fighting = false;
+                units[i].attack_target.attack_target = null;
+                units[i].attack_target = null;
+            }
+            
+            
+        }
+        
+        // reset fighting unit
+        /*if ( ! fight)
+        {
+            if (units[i])
+            {
+                units[i].fighting = false;
+                units[i].attack_target = null;
+            }
+            
+        }*/
+    }
+    
+    /**
+    * Playing dying animation for units
+    * ...
+    */
+    
+    
     
     // Selection Rect
     if (SelectionRect.on == true)
@@ -641,7 +915,14 @@ var update = function(ms){
     for (var i = 0; i < units.length; ++i)
     {
         if (units[i] && units[i].what == 'unit')
+        {
             units[i].move(ms);
+            units[i].fight(ms); 
+            units[i].die(ms);
+            
+            if (units[i].IsMoving())
+                units[i].fighting = false;  
+        }
     }
 
     /**
@@ -673,6 +954,11 @@ var update = function(ms){
         buttons['build_kknight'].visible = false;
         buttons['build_kpaladin'].visible = false;
         
+        buttons['build_swarrior'].visible = false;
+        buttons['build_sarcher'].visible = false;
+        buttons['build_sknight'].visible = false;
+        buttons['build_smonk'].visible = false;
+        
         buttons['build_farm'].visible = false;
             buttons['build_woodcutter'].visible = false;
             buttons['build_ktower'].visible = false;
@@ -702,7 +988,6 @@ var update = function(ms){
         // if barracks are selected
         if (selected_units[0].building_class.GetType() == BuildingType.BARRACKS && selected_units[0].construction_progress >= 100)
         {
-            //buttons['destroy_building'].visible = false;
             
             if (current_game.player1_side_id == GameSide.KNIGHTS)
             {
@@ -711,6 +996,15 @@ var update = function(ms){
                 buttons['build_kknight'].visible = true;
                 buttons['build_kpaladin'].visible = true;
             }
+            else if (current_game.player1_side_id == GameSide.SKELETONS)
+            {
+                buttons['build_swarrior'].visible = true;
+                buttons['build_sarcher'].visible = true;
+                buttons['build_sknight'].visible = true;
+                buttons['build_smonk'].visible = true;
+            }
+            
+            
         }
         
         // if main building is selected

@@ -185,8 +185,27 @@ var render = function (){
                 var tmp = units[i].get_frame();
 
                 //Engine.ctx.drawImage(units[i].unit_class.walkcycle, tmp[0], tmp[1], units[i].width, units[i].height, units[i].x - View.x - 0, units[i].y - View.y - 0, 64, 64);
-                Engine.ctx.drawImage(units[i].unit_class.walkcycle, tmp[0], tmp[1], units[i].size, units[i].size, units[i].x - View.x - 0, units[i].y - View.y - 0, units[i].size, units[i].size);
+                
+                
+                    
+                if (units[i].fighting)
+                {
+                    //console.log(tmp);
+                    Engine.ctx.drawImage(units[i].unit_class.fighting, tmp[0], tmp[1], units[i].size, units[i].size, units[i].x - View.x - 0, units[i].y - View.y - 0, units[i].size, units[i].size);
+                }
+                else
+                {
+                    Engine.ctx.drawImage(units[i].unit_class.walkcycle, tmp[0], tmp[1], units[i].size, units[i].size, units[i].x - View.x - 0, units[i].y - View.y - 0, units[i].size, units[i].size);
+                }
             }  
+            else if (units[i] && units[i].dying && units[i].visible)
+            {
+                units[i].current_dir = 0;
+                var tmp = units[i].get_frame();
+        
+                //console.log(units[i].dying);
+                Engine.ctx.drawImage(units[i].unit_class.hurt, tmp[0], tmp[1], units[i].size, units[i].size, units[i].x - View.x - 0, units[i].y - View.y - 0, units[i].size, units[i].size);
+            }
         }
     }
 

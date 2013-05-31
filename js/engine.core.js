@@ -4,8 +4,8 @@ var current_game = {
     player1_login : '',
     player2_login : '',
 
-    player1_side_id : GameSide.KNIGHTS,
-    player2_side_id : GameSide.SKELETONS,
+    player2_side_id : GameSide.KNIGHTS,
+    player1_side_id : GameSide.SKELETONS,
 
     gold : 0,
 
@@ -380,7 +380,7 @@ function select_units(x, y)
 
     for (var i = 0; i < units.length; ++i)
     {   
-        if (units[i] && units[i].what == 'unit')
+        if (units[i] && units[i].what == 'unit' && units[i].visible)
         {
             if (units[i].unit_class.GetSide() == current_game.player1_side_id)
             {
@@ -403,7 +403,7 @@ function select_units(x, y)
 */
 function select_multiple_units()
 {
-    console.log('selecting multiple units...');
+    //console.log('selecting multiple units...');
     selected_units.length = 0;
     
     var rect = [ 
@@ -415,7 +415,7 @@ function select_multiple_units()
     
     for (var i = 0; i < units.length; ++i)
     {   
-        if (units[i] && units[i].what == 'unit')
+        if (units[i] && units[i].what == 'unit' && units[i].visible)
         {
             if (units[i].unit_class.GetSide() == current_game.player1_side_id)
             {  

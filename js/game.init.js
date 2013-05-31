@@ -140,4 +140,25 @@ prices = {
         gold: 20,
         food: 15
     },
+    
+    
+    'swarrior': {
+        gold: 5,
+        food: 5
+    },
+    
+    'sarcher': {
+        gold: 7,
+        food: 6
+    },
+   
+    'sknight': {
+        gold: 10,
+        food: 10
+    },
+
+    'smonk': {
+        gold: 20,
+        food: 15
+    },
 }

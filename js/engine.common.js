@@ -8,7 +8,7 @@ var GameState = {
     sprites_loaded : false,
     
     // gotta count by hand :/
-    sprites_number : 26,
+    sprites_number : 30,
     // number of sprites already loaded
     sprites_ready : 0,
     
@@ -93,6 +93,28 @@ var Direction = {
     S : 4,
 
     W : 6
+}
+
+/**
+* N -> S, E -> W etc.
+* 
+* @param direction
+*/
+function reverse_direction(direction)
+{
+    if (direction == Direction.N)
+        return Direction.S;
+        
+    if (direction == Direction.S)
+        return Direction.N;
+        
+    if (direction == Direction.E)
+        return Direction.W;
+        
+    if (direction == Direction.W)
+        return Direction.E;
+        
+    return -1;
 }
 
 var GameSide = {
@@ -228,3 +250,18 @@ function roundRect(ctx, x, y, width, height, radius, fill, stroke, fill_color, s
     }        
 }
 
+
+
+function random_str(length) {
+    var chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz'.split('');
+    
+    if (! length) {
+        length = Math.floor(Math.random() * chars.length);
+    }
+    
+    var str = '';
+    for (var i = 0; i < length; i++) {
+        str += chars[Math.floor(Math.random() * chars.length)];
+    }
+    return str;
+}

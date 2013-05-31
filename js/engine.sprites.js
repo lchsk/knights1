@@ -1,6 +1,8 @@
 var animation_time = {
     
-    walkcycle: 10
+    walkcycle : 10,
+    attack : 10,
+    dying : 16
 }
 
 var current_map = new CurrentMap();
@@ -42,6 +44,11 @@ var GameSprites = {
     btn_kknight : new Image(),
     btn_kpaladin : new Image(),
 
+    btn_swarrior : new Image(),
+    btn_sarcher : new Image(),
+    btn_sknight : new Image(),
+    btn_smonk : new Image(),
+    
     // drawing characters health
     life_strip : {
         100 : new Image(),
@@ -122,5 +129,10 @@ GameSprites.btn_kknight.src = config.IMAGES_PATH + 'btn_kknight.png';
 GameSprites.btn_kpaladin.src = config.IMAGES_PATH + 'btn_kpaladin.png';
 
 GameSprites.explosion1.src = config.IMAGES_PATH + 'explosion1.png'; // 26
+
+GameSprites.btn_swarrior.src = config.IMAGES_PATH + 'btn_swarrior.png';
+GameSprites.btn_sarcher.src = config.IMAGES_PATH + 'btn_sarcher.png';
+GameSprites.btn_sknight.src = config.IMAGES_PATH + 'btn_sknight.png';
+GameSprites.btn_smonk.src = config.IMAGES_PATH + 'btn_smonk.png'; // 30
 }
 
