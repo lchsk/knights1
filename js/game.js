@@ -707,6 +707,17 @@ var update = function(ms){
     }
 
     
+    var reset_fight = function(u){
+        
+        units[i].fighting = false;
+        
+        if (units[i].attack_target != null)
+        {
+            units[i].attack_target.fighting = false;
+            units[i].attack_target.attack_target = null;
+            units[i].attack_target = null;
+        }
+    }
     
     
     // Finding enemy nearby
@@ -728,13 +739,7 @@ var update = function(ms){
                         
                 if (units[i].attack_target.health <= 0)
                 {
-                    units[i].fighting = false;
-                    if (units[i].attack_target != null)
-                    {
-                        units[i].attack_target.fighting = false;
-                        units[i].attack_target.attack_target = null;
-                        units[i].attack_target = null;
-                    }
+                    reset_fight(units[i]);
                     
                     
                 }
@@ -836,13 +841,7 @@ var update = function(ms){
         // Reset..
         if (fight == false && units[i] && units[i].what == 'unit' && units[i].visible && units[i].health > 0)
         {
-            units[i].fighting = false;
-            if (units[i].attack_target != null)
-            {
-                units[i].attack_target.fighting = false;
-                units[i].attack_target.attack_target = null;
-                units[i].attack_target = null;
-            }
+            reset_fight (units[i]);
             
             
         }

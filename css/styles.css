@@ -1,5 +1,7 @@
 body { margin: 0; }
 
+h1 { margin: 4px; padding: 0; }
+
 font-face {
     font-weight: normal;
     font-style: normal;
@@ -31,6 +33,9 @@ font-face {
 #canvas-wrap { position:relative } /* Make this a positioned parent */
 #overlay     { position:absolute; top:20px; left:30px; }
 
+div.title_left { float: left; }
+div.title_right { float: right; }
+
 /**
 * Div containing all kinds of menu data
 */
@@ -47,4 +52,145 @@ div.menu{
     margin-left: 10%;
     margin-top: 5%;
     padding: 20px;
+}
+
+input[type=text], input[type=password]{  
+    padding: 5px;  
+    font-size: 15px;  
+    text-shadow: 0px 1px 0px #fff;  
+    outline: none;  
+    background: -webkit-gradient(linear, left top, left bottombottom, from(#bcbcbe), to(#ffffff));  
+    background: -moz-linear-gradient(top,  #bcbcbe,  #ffffff);  
+    -webkit-border-radius: 3px;  
+    -moz-border-radius: 3px;  
+    border-radius: 3px;  
+    border: 1px solid #717171;  
+    -webkit-box-shadow: 1px 1px 0px #efefef;  
+    -moz-box-shadow: 1px 1px 0px #efefef;  
+    box-shadow:  1px 1px 0px #efefef; 
+    margin-bottom: 2px; 
+}
+
+input[type=text]:focus, input[type=password]:focus {  
+    -webkit-box-shadow: 0px 0px 5px #007eff;  
+    -moz-box-shadow: 0px 0px 5px #007eff;  
+    box-shadow: 0px 0px 5px #007eff;  
+} 
+
+.clear { clear: both; }
+
+
+div.box {
+
+margin:0 auto;
+
+width:500px;
+
+
+position:relative;
+
+top:5px;
+
+border:1px solid transparent;
+
+}
+
+
+
+div.box label {
+
+width:100%;
+
+display: block;
+
+background: transparent;
+
+border-top:1px solid transparent;
+
+border-bottom:1px solid transparent;
+
+padding:5px 0 5px 0;
+
+}
+
+
+
+div.box label span {
+
+display: block;
+
+color: #010101;
+
+font-size:12px;
+font-weight: bold;
+float:left;
+
+width:100px;
+
+text-align:right;
+
+padding:5px 20px 0 0;
+
+}
+
+
+
+
+.styled-select select {
+   background: transparent;
+   width: 100%;
+   
+   font-size: 14px;
+   line-height: 1;
+   
+   border-radius: 0;
+   height: 34px;
+   -webkit-appearance: none;
+   
+   padding: 5px;
+      
+    text-shadow: 0px 1px 0px #fff;  
+    outline: none;  
+    background: -webkit-gradient(linear, left top, left bottombottom, from(#bcbcbe), to(#ffffff));  
+    background: -moz-linear-gradient(top,  #bcbcbe,  #ffffff);  
+    -webkit-border-radius: 3px;  
+    -moz-border-radius: 3px;  
+    border-radius: 3px;  
+    border: 1px solid #717171;  
+    -webkit-box-shadow: 1px 1px 0px #efefef;  
+    -moz-box-shadow: 1px 1px 0px #efefef;  
+    box-shadow:  1px 1px 0px #efefef; 
+    margin-bottom: 2px; 
+   }
+   
+.styled-select {
+   width: 200px;
+   height: 34px;
+   overflow: hidden;
+   background: url(../res/down_arrow_select.jpg) no-repeat right #fff;
+   border: 1px solid #ccc;
+   }
+   
+   
+   
+
+
+#sides .ui-selecting { background: #fff; }
+#sides .ui-selected { background: #555; color: white; }
+#sides { list-style-type: none; margin: 0; padding: 0; }
+#sides li {
+ margin: 3px; padding: 0.4em; width: 120px; height: 80px; float: left; text-align: center;  -webkit-border-radius: 5px;  
+    -moz-border-radius: 5px;  
+    border-radius: 5px;  
+}
+
+
+#maps .ui-selecting { background: #fff; }
+#maps .ui-selected { background: #555; color: white; }
+#maps { list-style-type: none; margin: 0; padding: 0; }
+#maps li {
+ margin: 3px; padding: 0.4em; width: 120px; height: 16px; float: left; text-align: center;  -webkit-border-radius: 5px;  
+    -moz-border-radius: 5px;  
+    border-radius: 5px;  
+    
 }

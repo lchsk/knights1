@@ -25,7 +25,7 @@ Sprites.init();
 //Sprites.get(Sprites);
 
 
-current_map.load_map_from_tiled("map2.dat");
+current_map.load_map_from_tiled(game_data.map);
 current_map.load_materials(Materials, units);
 
 config.update();

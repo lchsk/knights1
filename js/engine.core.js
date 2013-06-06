@@ -1,11 +1,11 @@
 
 
 var current_game = {
-    player1_login : '',
-    player2_login : '',
+    player1_login : game_data.player1_login,
+    player2_login : game_data.player2_login,
 
-    player2_side_id : GameSide.KNIGHTS,
-    player1_side_id : GameSide.SKELETONS,
+    player1_side_id : game_data.player1_side_id,
+    player2_side_id : game_data.player2_side_id,
 
     gold : 0,
 
@@ -314,6 +314,21 @@ function handle_mouse_click(event)
     else
     {
         mouse_state['right'] = false;
+    }
+    
+    if (event.button == 1)
+    {
+        if (current_game.player1_side_id == GameSide.KNIGHTS)
+        {
+            current_game.player1_side_id = GameSide.SKELETONS;
+            current_game.player2_side_id = GameSide.KNIGHTS;
+        }
+        else
+        {
+            current_game.player2_side_id = GameSide.SKELETONS;
+            current_game.player1_side_id = GameSide.KNIGHTS;
+        }
+    
     }
         
 }
