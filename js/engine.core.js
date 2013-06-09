@@ -421,10 +421,28 @@ function select_multiple_units()
     //console.log('selecting multiple units...');
     selected_units.length = 0;
     
-    var rect = [ 
-        SelectionRect.start_x, SelectionRect.start_y, SelectionRect.end_x + View.x, SelectionRect.end_y + View.y
+    var rect = [
+        SelectionRect.start_x, SelectionRect.start_y, SelectionRect.end_x, SelectionRect.end_y
     ];
-    console.log (rect);
+	
+	// select units from every sie
+	if(rect[0] > rect[2])
+	{
+		var temp = rect[0];
+		rect[0] = rect[2];
+		rect[2] = temp;
+	}
+	if(rect[1] > rect[3])
+	{
+		var temp = rect[1];
+		rect[1] = rect[3];
+		rect[3] = temp;
+	}
+	//select item from all tile
+	rect[0] -= (config.tile_width +1 );
+	rect[1] -= (config.tile_height+1);
+	rect[2] += 1;
+	rect[3] += 1;
     
     var count = 0;
     

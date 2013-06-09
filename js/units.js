@@ -346,41 +346,31 @@ var Unit = function(unit_class){
     /*
     *    sets new road for unit -ss
     */
-    this.set_new_road = function(tabWithNewRoad) {
-        if(this.road.length > 1)
-        {
-                var first = this.road[0];
-            //if(tabWithNewRoad.length == 1  || second != tabWithNewRoad[0])
-            //{
-        //        var second = this.road[1];
-            //    tabWithNewRoad.unshift(second);
-            //}
-                tabWithNewRoad.unshift(first);
-            this.road = tabWithNewRoad;
-        }
-        else
-        {
-            this.road = tabWithNewRoad;
-        }
-    }
+	this.set_new_road = function(tabWithNewRoad) {
+		if(this.IsMoving())
+		{
+			this.road = tabWithNewRoad;
+		}
+		else
+		{
+			tabWithNewRoad.shift();
+			this.road = tabWithNewRoad;
+		}
+	}
 
-    /*
-    * get tile form unit start his road -ss
-    */    
-    this.get_start_tile_to_walk = function() {
-        if(this.road.length > 1)
-        {
-            return this.road[1];
-        }
-        else if(this.IsMoving())
-        {
-            return this.road[0];
-        }
-        else
-        {
-            return this.current_tile;
-        }
-    }
+	/*
+	* get tile form unit start his road -ss
+	*/	
+	this.get_start_tile_to_walk = function() {
+		if(this.IsMoving())
+		{
+			return this.road[0];
+		}
+		else
+		{
+			return this.current_tile;
+		}
+	}
     
     /*
     * search position where unit can stop when purpose title is full of other thinks-ss
@@ -510,6 +500,7 @@ var Unit = function(unit_class){
     
     /**
     * :D
+	* return info that he is dead or still no
     */
     this.die = function(ms){
         
@@ -527,15 +518,18 @@ var Unit = function(unit_class){
                         that.current_frame = 0;
                         that.dying = false;
                         that.played_death = true;  
-                        //that.visible = false;
-
-                        console.log('zdechlk'); 
-                    }   
-                    
-            }
-            
-            
+					if(this.IsMoving())
+					{
+						current_map.build_map_with_unit[this.road[0]] =0; 						
+					}
+					current_map.build_map_with_unit[this.current_tile] =0;  
+				
+					return true;
+                }                       
+            }      
         }
+		
+		return false;
     }
     
     /**
@@ -545,8 +539,8 @@ var Unit = function(unit_class){
 
         if(this.IsMoving() && ! this.dying)
         {
-            var first = parseInt(this.road[0]);
-            var second = parseInt(this.road[1]);
+            var first = parseInt(this.current_tile);
+            var second = parseInt(this.road[0]);
 
             var dir = current_map.get_direction(first, second);
 
@@ -608,49 +602,43 @@ var Unit = function(unit_class){
             {
                 //console.log("next tile");
                 
-                var tile = get_tile_by_key(this.road[1]);
+                var tile = get_tile_by_key(parseInt(this.road[0]));
                 
-                if (tile > -1)
+                if (tile.length > -1)
                 {
                     this.x = tile[1] * 32;
                     this.y = tile[0] * 32;
-                }      
+                }
+				
+				//resets place where building  can be builds -ss
+				current_map.build_map_with_unit[this.current_tile] =0;         
                 
-                //resets place where building  can be builds -ss
-                current_map.build_map_with_unit[this.current_tile] = 0;    
-                
-                
-                this.current_tile = parseInt(this.road[0], 10);       
-                
-                //resets place where building  can be builds -ss
-                current_map.build_map_with_unit[this.current_tile] = 0; 
+                this.current_tile = this.road[0];
+
+				//resets place where building  can be builds -ss
+				current_map.build_map_with_unit[this.current_tile] =0;           
                 
                 this.road_travelled = 0;
-                this.road.shift();    
-                
-                // this group of lines set place where we can`t build and check that some  build is creating on our road-ss
-                if(this.road.length > 0)
-                {
-                    current_map.build_map_with_unit[this.road[0]] =1;  
-                    if(this.road.length > 1)
-                    {
-                        current_map.build_map_with_unit[this.road[1]] =1; 
-                        //check that some build is on road
-                        if(current_map.build_map[this.road[1]] != 0)
-                        {
-                            // If yes, we search new road to purpose, but we must check that we have free last tiles on road
-                            var first  =  this.road[0];
-                            var last = this.road[this.road.length-1];
-                            
-                            console.log("normal " + last);
-                            last = this.search_last_road_position(first,last);
-                            console.log("after " + last);
-                            this.road = dijkstra.find_path(graph, first, last);
-                        }
-                    }
-                }  
-                
-                //alert(this.road.length);
+                this.road.shift();
+				
+				// this group of lines set place where we can`t build and check that some  build is creating on our road-ss
+				if(this.road.length > 0)
+				{
+					current_map.build_map_with_unit[this.road[0]] =1;  
+					if(this.road.length > 1)
+					{
+						current_map.build_map_with_unit[this.current_tile] =1; 
+						//check that some build is on road
+						if(current_map.build_map[this.road[1]] != 0)
+						{
+							// If yes, we search new road to purpose, but we must check that we have free last tiles on road
+							var first  =  this.road[0];
+							var last = this.road[this.road.length-1];
+							last = this.search_last_road_position(first,last);
+							this.road = dijkstra.find_path(graph, first, last);
+						}
+					}
+				}
             }
 
             /**
@@ -672,12 +660,16 @@ var Unit = function(unit_class){
                 this.current_frame = 0;
 
         }
-        else if ( ! this.fighting && ! this.dying)
+        else if (! this.dying &&  !this.played_death)
         {
             //set place where we can`t build -ss
             current_map.build_map_with_unit[this.current_tile] = 1;
             this.current_frame = 0;
         }
+		else 
+		{			
+            current_map.build_map_with_unit[this.current_tile] = 0;
+		}
     }
 
 

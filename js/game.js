@@ -501,7 +501,7 @@ rmb_click = function(event){
                         catch(e)
                         {
                             // path not found
-                            selected_units[i].road.length = 0;
+                           // selected_units[i].road.length = 0;
                             console.log("Path not found");
                             
                             return false;
@@ -876,32 +876,20 @@ var update = function(ms){
     {
         SelectionRect.on = true;       
     }
-    //else if (SelectionRect.start_x != -1 && SelectionRect.end_x != -1)
-    //else if (SelectionRect.end_x - SelectionRect.start_x > 10 && SelectionRect.end_y - SelectionRect.start_y > 10)
-    //else
-    //{
-        // End of selection
-        /*SelectionRect.on = false;  
-        
-        select_multiple_units();
-        console.log(SelectionRect);
-        
-        SelectionRect.start_x = -1;
-        SelectionRect.start_y = -1;
-        SelectionRect.end_x = -1;
-        SelectionRect.end_y = -1;*/
-        
-        
-    //}
-    else
+	else
     {
-        SelectionRect.on = false;
-     
-        //console.log(SelectionRect);
-     
-        if(SelectionRect.end_x - SelectionRect.start_x > 1 || SelectionRect.end_y - SelectionRect.start_y > 1)
-            select_multiple_units();
-        
+		if (SelectionRect.on == true)
+		{
+			SelectionRect.end_x += View.x;
+			SelectionRect.end_y += View.y;
+			 
+			if(Math.abs(SelectionRect.end_x - SelectionRect.start_x) > 4 || Math.abs(SelectionRect.end_y - SelectionRect.start_y) > 4)
+			{
+				select_multiple_units();
+			}	
+		}	
+		
+		SelectionRect.on = false;
         SelectionRect.start_x = -1;
         SelectionRect.start_y = -1;
         SelectionRect.end_x = -1;
@@ -917,7 +905,11 @@ var update = function(ms){
         {
             units[i].move(ms);
             units[i].fight(ms); 
-            units[i].die(ms);
+			
+            if(units[i].die(ms))
+			{
+				units.splice(i, 1);
+			}
             
             if (units[i].IsMoving())
                 units[i].fighting = false;  
