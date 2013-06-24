@@ -542,7 +542,7 @@ rmb_click = function(event){
                         catch(e)
                         {
                             // path not found
-                            selected_units[i].road.length = 0;
+                           // selected_units[i].road.length = 0;
                             console.log("Path not found");
                             
                             return false;
@@ -998,7 +998,11 @@ var update = function(ms){
     {
         SelectionRect.on = true;       
     }
+<<<<<<< HEAD
     else
+=======
+	else
+>>>>>>> 62ba6d7777b8585f1e5bd52e65b7b995d1a3cd73
     {
 		if (SelectionRect.on == true)
 		{
@@ -1027,7 +1031,11 @@ var update = function(ms){
         {
             units[i].move(ms);
             units[i].fight(ms); 
+<<<<<<< HEAD
 
+=======
+			
+>>>>>>> 62ba6d7777b8585f1e5bd52e65b7b995d1a3cd73
             if(units[i].die(ms))
 			{
 				units.splice(i, 1);

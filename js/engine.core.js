@@ -622,7 +622,11 @@ function select_multiple_units()
 	rect[1] -= (config.tile_height+1);
 	rect[2] += 1;
 	rect[3] += 1;
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> 62ba6d7777b8585f1e5bd52e65b7b995d1a3cd73
     var count = 0;
     
     for (var i = 0; i < units.length; ++i)

@@ -614,15 +614,25 @@ var Unit = function(unit_class){
                 {
                     this.x = tile[1] * 32;
                     this.y = tile[0] * 32;
+<<<<<<< HEAD
                 }      
                 
                 //resets place where building  can be builds -ss
+=======
+                }
+				
+				//resets place where building  can be builds -ss
+>>>>>>> 62ba6d7777b8585f1e5bd52e65b7b995d1a3cd73
 				current_map.build_map_with_unit[this.current_tile] =0;         
                 
                 this.current_tile = this.road[0];
 
 				//resets place where building  can be builds -ss
+<<<<<<< HEAD
 				current_map.build_map_with_unit[this.current_tile] =0; 
+=======
+				current_map.build_map_with_unit[this.current_tile] =0;           
+>>>>>>> 62ba6d7777b8585f1e5bd52e65b7b995d1a3cd73
                 
                 this.road_travelled = 0;
                 this.road.shift();
@@ -644,9 +654,13 @@ var Unit = function(unit_class){
 							this.road = dijkstra.find_path(graph, first, last);
 						}
 					}
+<<<<<<< HEAD
 				}  
                 
                 //alert(this.road.length);
+=======
+				}
+>>>>>>> 62ba6d7777b8585f1e5bd52e65b7b995d1a3cd73
             }
 
             /**
