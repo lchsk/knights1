@@ -367,39 +367,56 @@
           
           global $maps;
           
-          foreach ($games as $g)
+          if ( ! empty ($games))
           {
-              $ret .= 'Game started: <b>' . date('m-d-Y H:i', $g['start_time']) . '</b><br />';
-              
-              if ($g['player1'] == 2)
+              foreach ($games as $g)
               {
-                  $u1_side = 'Knights';
-                  $u2_side = 'Skeletons';
-              }
-              else if ($g['player1'] == 1)
-              {
-                  $u2_side = 'Knights';
-                  $u1_side = 'Skeletons';
-              }
-              
-              $map_name = '';
-              for ($i = 0; $i < count ($maps); $i++)
-              {
-                  if ($maps[$i]['filename'] == $g['map_filename'])
+                  $ret .= 'Game started: <b>' . date('m-d-Y H:i', $g['start_time']) . '</b><br />';
+
+                  if ($g['player1'] == 2)
                   {
-                      $map_name = $maps[$i]['name'];
-                      break;
+                      $u1_side = 'Knights';
+                      $u2_side = 'Skeletons';
                   }
+                  else if ($g['player1'] == 1)
+                  {
+                      $u2_side = 'Knights';
+                      $u1_side = 'Skeletons';
+                  }
+
+                  $map_name = '';
+                  for ($i = 0; $i < count ($maps); $i++)
+                  {
+                      if ($maps[$i]['filename'] == $g['map_filename'])
+                      {
+                          $map_name = $maps[$i]['name'];
+                          break;
+                      }
+                  }
+
+                  $ret .= 'Map name: <b>' . $map_name . '</b><br />';
+                  $ret .= 'Opponent: <b>' . $g['username2'] . ' (' . $u2_side . ')</b><br />';
+                  $ret .= 'You play as: <b>' . $u1_side . '</b><br />';
+                  $ret .= '<a class="gui_btn" href="index.php?id=game&game=' . $g['u2_hash'] . '">Join</a>';
               }
-              
-              $ret .= 'Map name: <b>' . $map_name . '</b><br />';
-              $ret .= 'Opponent: <b>' . $g['username2'] . ' (' . $u2_side . ')</b><br />';
-              $ret .= 'You play as: <b>' . $u1_side . '</b><br />';
-              $ret .= '<a class="gui_btn" href="index.php?id=game&game=' . $g['u2_hash'] . '">Join</a>';
           }
       }
       
       
+      
+      return $ret;
+  }
+  
+  
+  function about()
+  {
+      $ret = '';
+      
+      $ret .= '<div class="title_left"><h1>Knights & Skeletons</h1></div><div class="title_right"><a class="gui_btn" href="index.php">Home</a></div><div class="clear"></div>';
+      
+      $ret .= '<b>Authors</b><br />';
+      
+      $ret .= 'Maciek Lechowski<br />Sławomir Kowalski<br />Michał Moskała<br />Michał Mytnik<br />Piotr Kaliciński<br /><br />Cracow University of Technology <3<br /><br /><a href="http://opengameart.org/content/lpc-medieval-fantasy-character-sprites">Art by wulax</a>';
       
       return $ret;
   }

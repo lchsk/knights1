@@ -13,6 +13,11 @@ var CurrentMap = function()
     // access by layers[0].data
     var layers = null;
     
+    // fog of war
+    this.fog = [];
+    this.fog_w = -1;
+    this.fog_h = -1;
+    
     // map holding data used while building sth
     // has to be later modified (buildings, trees etc. data)
     // 
@@ -102,6 +107,7 @@ var CurrentMap = function()
 
             var layers = json.layers;
 
+            
             ctx.SetLayers(layers);
 
             config.map_tiles_w = json.width;
@@ -118,6 +124,8 @@ var CurrentMap = function()
             ctx.knights_start_y = parseInt(json.properties.knights_start_y);
             ctx.skeletons_start_x = parseInt(json.properties.skeletons_start_x);
             ctx.skeletons_start_y = parseInt(json.properties.skeletons_start_y);
+            
+            
 
             current_game.food = ctx.food;
             current_game.material = ctx.material;
@@ -137,6 +145,58 @@ var CurrentMap = function()
                 ctx.build_map[i] = 0;
                 ctx.build_map_with_unit[i] = 0;
             }
+            
+            // fog
+            //for (var i = 0; i < Math.ceil(config.map_tiles_w * config.map_tiles_h); ++i)
+            
+            ctx.fog_w = Math.ceil(config.map_tiles_h / 1);
+            ctx.fog_h = Math.ceil(config.map_tiles_w / 1);
+            
+            for (var i = 0; i <= ctx.fog_w; ++i)
+            {
+                ctx.fog[i] = [];
+                
+                for (var j = 0; j <= ctx.fog_h; ++j)
+                {
+                    ctx.fog[i][j] = 0;
+                }
+            }
+            
+            //ctx.fog[0][0] = -1;
+            
+            
+            
+            var remove_fog_from_start = function()
+            {
+                var t_i = Math.floor(ctx.knights_start_x / 3) - 1;
+                var t_j = Math.floor(ctx.knights_start_y / 3) - 1;
+            
+                
+                
+                for (var i = t_i; i < t_i + 4; ++i)
+                {
+                    for (var j = t_j; j < t_j + 4; ++j)
+                    {
+                        if (i >= 0 && j >= 0 && i < ctx.fog_w && j < ctx.fog_h)
+                            ctx.fog[i][j] = -1;        
+                    }
+                }
+            }
+            
+            remove_fog_from_start();
+            
+            /*// remove fog of war from starting point
+            ctx.fog[0] = -1;
+            ctx.fog[1] = -1;
+            ctx.fog[3] = -1;
+            
+            ctx.fog[7] = -1;
+            ctx.fog[30] = -1;
+            var ttt = ctx.knights_start_y * 45 + ctx.knights_start_x + 1;
+            
+            //alert(ttt);
+            //ctx.fog[18] = -1;
+            ctx.fog[141] = -1;*/
             
             // get positionf of mountain tiles and exclude them from the graph
             for (var i = 0; i < config.map_tiles_w * config.map_tiles_h; ++i)

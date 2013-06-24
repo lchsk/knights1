@@ -118,6 +118,8 @@ var Building = function(building_class){
 
     this.what = 'building';
     
+    this.hash = random_str(8);
+    
     /**
     * Building's class i.e. one of the objects from above
     */

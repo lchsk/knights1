@@ -64,7 +64,9 @@ var Materials = {
 
 var Material = function(material_class, x, y){
 
-    this.what = 'material'; 
+    this.what = 'material';
+    
+    this.hash = random_str(); 
 
     this.material_class = material_class;
     

@@ -668,16 +668,12 @@ var Unit = function(unit_class){
                 this.current_frame = 0;
 
         }
-        else if (! this.dying &&  !this.played_death)
+        else if ( ! this.fighting && ! this.dying)
         {
             //set place where we can`t build -ss
             current_map.build_map_with_unit[this.current_tile] = 1;
             this.current_frame = 0;
         }
-		else 
-		{			
-            current_map.build_map_with_unit[this.current_tile] = 0;
-		}
     }
 
 

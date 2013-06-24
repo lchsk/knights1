@@ -24,7 +24,7 @@
     private function Init()
     {
          $this->GAME_TITLE = 'Knights & Skeletons';
-         $this->HOST = 'http://localhost/knights/';
+         $this->HOST = 'http://192.168.0.147/knights/';
          $this->JS_FILES_PATH = $this->HOST . 'js/';
          $this->IMAGES_PATH = $this->HOST . 'images/';
          //$this->SPRITES_FILE_PATH = $this->HOST . 'data/sprites.dat';   

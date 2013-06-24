@@ -3,8 +3,8 @@ var Config = Config || function(){
     
     var that = this;
     
-    this.PATH = 'http://localhost/knights/';
-    this.IMAGES_PATH = 'http://localhost/knights/images/';
+    this.PATH = 'http://192.168.0.147/knights/';
+    this.IMAGES_PATH = 'http://192.168.0.147/knights/images/';
     
     /**
     * Number of columns in tilesheet image

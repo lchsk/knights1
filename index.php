@@ -6,6 +6,7 @@
     include('maps.php');
     include('signup.php');
     include('signin.php');
+    include('messages.php');
     
     
     $config = Config::GetInstance();
@@ -19,6 +20,7 @@
         $files = array(
         // Libraries
             'lib/jquery.js', 
+            'lib/json2.js',
             //'lib/jquery.backstretch.min.js', 
             //'jquery.ui.core.min.js', 'jquery.ui.widget.min.js', 'jquery.ui.position.min.js', 'jquery.ui.tooltip.min.js',
         // Game
@@ -70,7 +72,9 @@
                     player2_login : \'' . $user2 . '\', 
                     map : \'' . $map . '\',
                     player1_side_id : ' . $side1 . ',
-                    player2_side_id : ' . $side2 . '
+                    player2_side_id : ' . $side2 . ',
+                    hash1 : \'' . $hash1 . '\', 
+                    hash2 : \'' . $hash2 . '\'
                     }';
                 }
                 else
@@ -80,7 +84,9 @@
                     player2_login : \'' . $user1 . '\', 
                     map : \'' . $map . '\',
                     player1_side_id : ' . $side2 . ',
-                    player2_side_id : ' . $side1 . '
+                    player2_side_id : ' . $side1 . ',
+                    hash1 : \'' . $hash2 . '\', 
+                    hash2 : \'' . $hash1 . '\'
                     }';
                     
                     $db->query('update games set started=1 where u2_hash = "' . $hash . '"');
@@ -178,7 +184,7 @@
             if ( ! isset($id))
             {
                 // main menu
-                $div .= '<h1>Knights & Skeletons</h1>';
+                $div .= '<div class="title_left"><h1>Knights & Skeletons</h1></div><div class="title_right"><a class="gui_btn" href="index.php?id=about">About</a></div><div class="clear"></div>';
                 $div .= '<b>Welcome to Knights & Skeletons!<br />Sign in and play real-time multiplayer strategy game!</b>';
                 
                 $div .= '<br /><br />';
@@ -192,6 +198,7 @@
                 {
                     $div .= '<a class="gui_btn" href="index.php?id=signup">Sign Up</a>';
                     $div .= '<a class="gui_btn" href="index.php?id=signin">Sign In</a>';
+                    
                 }
                 else
                 {
@@ -245,6 +252,11 @@
             {
                 $div .= logout();
             }
+            
+            else if ($id == 'about')
+            {
+                $div .= about();
+            }
                 
             $div .= '</div>
         ';
@@ -261,9 +273,44 @@
 
 
     if ($_GET['id'] == 'game')
-        echo game();  
+    {
+        echo game();
+    }
+    else if ($_GET['id'] == 'add_building')
+    {
+        add_building();
+    } 
+    else if ($_GET['id'] == 'add_unit')
+    {
+        add('add_unit');
+    }
+    else if ($_GET['id'] == 'move_unit')
+    {
+        add('move_unit');
+    }
+    else if ($_GET['id'] == 'move_units')
+    {
+        add('move_units');
+    }
+    else if ($_GET['id'] == 'del_building')
+    {
+        add('del_building');
+    }
+    
+    else if ($_GET['id'] == 'del_unit')
+    {
+        add('del_unit');
+    }
+    
+    else if ($_GET['id'] == 'read')
+    {
+        read();
+    } 
     else
+    {
         echo index();
+    }
+        
 ?>
 
 <?php ob_end_flush(); ?>

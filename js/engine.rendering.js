@@ -13,13 +13,40 @@ var render = function (){
 
     var start_x = Math.floor(View.x / config.tile_width);
     var start_y = Math.floor(View.y / config.tile_height);
+    
+    
 
     //console.log(start_x);
 
     var offset_x = View.x % config.tile_width; // offset on x axis
     var offset_y = View.y % config.tile_height;
-
     
+    
+    // fog...
+    var start_x_fog = Math.floor(View.x / 96);
+    var start_y_fog = Math.floor(View.y / 96);
+    
+    var offset_x_fog = View.x % 96; // offset on x axis
+    var offset_y_fog = View.y % 96;
+
+    // x coordinate for fog
+    
+    /*if (start_x_fog % 3 != 0)
+    {
+        if((start_x_fog - 1) % 3 == 0)
+            start_x_fog -= 1;
+        else
+            start_x_fog -= 2;
+    }
+    
+    // y coordinate for fog
+    if (start_y_fog % 3 != 0)
+    {
+        if((start_y_fog - 1) % 3 == 0)
+            start_y_fog -= 1;
+        else
+            start_y_fog -= 2;
+    }*/
     
     
     
@@ -210,7 +237,25 @@ var render = function (){
     }
 
 
+    /*
+    for (var i = 0, x = 0; i < current_map.fog_w; ++i, x += 96)
+    {
+        for (var j = 0, y = 0; j < current_map.fog_h; ++j, y += 96)
+        {
+            //if (current_map.fog[Math.floor(((start_y_fog + j) * Math.floor(config.map_tiles_w) + (start_x_fog + i)))] >= 0)
+            //if (start_x_fog >= 0 && start_y_fog >= 0 && start_x_fog <= current_map.fog_w && start_y_fog <= current_map.fog_h)
+            {
+                if (current_map.fog[i + start_x_fog][j + start_y_fog] >= 0)
+                {
 
+                    Engine.ctx.drawImage(GameSprites.fog, x - offset_x_fog - 30, y - offset_y_fog - 30);
+                }
+            }
+            
+        }
+        
+    }
+*/
 
     /**
     * Drawing gui
@@ -296,6 +341,38 @@ var render = function (){
         Engine.ctx.stroke();
 
     }
+    
+    /**
+    * Fog of War
+    */
+    
+    /*for(var i = 0, x = 0; i < tiles_in_row; i += 3, x += (config.tile_width * 3))
+    {
+        for(var j = 0, y = 0; j < tiles_in_col; j += 3, y += (config.tile_height * 3))
+        {
+            if (current_map.fog[Math.floor(((start_y_fog + j) * Math.floor(config.map_tiles_w) + (start_x_fog + i)))] >= 0)
+            {
+                //Engine.ctx.drawImage(GameSprites.fog, x - offset_x_fog - 30 + i, y - offset_y_fog - 25 + j);
+            }
+                
+            
+        }
+        
+    }*/
+    
+    /*for(var i = 0, x = 0; i < tiles_in_row; i++, x += 3*config.tile_width)
+    {
+        for(var j = 0, y = 0; j < tiles_in_col; j++, y += 3*config.tile_height)
+        {
+            if (current_map.fog[Math.floor(((start_y_fog + j) * Math.floor(config.map_tiles_w) + (start_x_fog + i)))] >= 0)
+            {
+                Engine.ctx.drawImage(GameSprites.fog, x - offset_x_fog - 30 + i, y - offset_y_fog - 25 + j);
+            }
+        }
+        
+    }*/
+    
+    
     
     /**
     * Drawing selection rectangle

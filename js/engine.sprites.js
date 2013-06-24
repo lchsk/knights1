@@ -68,7 +68,10 @@ var GameSprites = {
         stone : [8, 12],
         food : [7, 13],
         mana : [8, 13],
-    }
+    },
+    
+    
+    fog : new Image()
 
 }
 
@@ -134,5 +137,7 @@ GameSprites.btn_swarrior.src = config.IMAGES_PATH + 'btn_swarrior.png';
 GameSprites.btn_sarcher.src = config.IMAGES_PATH + 'btn_sarcher.png';
 GameSprites.btn_sknight.src = config.IMAGES_PATH + 'btn_sknight.png';
 GameSprites.btn_smonk.src = config.IMAGES_PATH + 'btn_smonk.png'; // 30
+
+GameSprites.fog.src = config.IMAGES_PATH + 'fog.png'; // 31
 }
 

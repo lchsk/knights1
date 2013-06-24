@@ -72,10 +72,16 @@ function collect_material(ms)
                             units[b].target = null;
                             units[b].target_status = -100;
                             
-                            if (current_game.player1_side_id == GameSide.KNIGHTS)
+                            if (current_game.player1_side_id == GameSide.KNIGHTS && units[b].unit_class.GetSide() == GameSide.KNIGHTS)
+                            {
                                 popups['no_wood_for_woodcutter'].show();
-                            else if (current_game.player1_side_id == GameSide.SKELETONS)
+                            }
+                                
+                            else if (current_game.player1_side_id == GameSide.SKELETONS && units[b].unit_class.GetSide() == GameSide.SKELETONS)
+                            {
                                 popups['no_stone_for_mason'].show();
+                            }
+                                
                         }
                         console.log(units[b].target + " " + closest_material);
                     }
