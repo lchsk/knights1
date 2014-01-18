@@ -429,11 +429,11 @@ lmb_click = function(event){
     {
         // Selecting units & buildings
         if ( ! select_units(mouse_pos.x, mouse_pos.y))
-            select_building(mouse_pos.x, mouse_pos.y)
+            select_building(mouse_pos.x, mouse_pos.y);
     }
     
     
-}
+};
 
 /**
 * RMB Click
@@ -518,7 +518,7 @@ rmb_click = function(event){
                         var str_u = {
                             hash : u.hash,
                             path : path
-                        }
+                        };
                         
                         var tmp = JSON.stringify(str_u);
                         var url = config.PATH + 'index.php?id=move_unit';
@@ -593,7 +593,7 @@ rmb_click = function(event){
                             
                             return false;
                         }
-                    }
+                    };
 
                     if ( ! find (tile_finish))
                     {
@@ -629,7 +629,7 @@ rmb_click = function(event){
         current_game.building_built_class = null;
         current_game.building_built_name = '';
     }
-}
+};
 
 /*
 var find_workers_path = function(u)
@@ -837,7 +837,7 @@ var update = function(ms){
         attacking_unit.fighting = true;
         attacking_unit.attack_target = defending_unit;
                     
-    }
+    };
     
     // cleaning up units array
     for (var i = 0; i < units.length; ++i)
@@ -880,7 +880,7 @@ var update = function(ms){
        //     units[i].attack_target.attack_target = null;
             u.attack_target = null;
         }
-    }
+   };
        
     // Finding enemy nearby
 
@@ -1616,7 +1616,7 @@ var update = function(ms){
                             hash : u.hash,
                             x : u.x,
                             y : u.y
-                        }
+                        };
                         
                         var tmp = JSON.stringify(str_u);
                         var url = config.PATH + 'index.php?id=add_unit';
@@ -1637,7 +1637,7 @@ var update = function(ms){
     
     
     
-}
+};
 
 
 // render

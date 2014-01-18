@@ -3,7 +3,7 @@ var animation_time = {
     walkcycle : 10,
     attack : 10,
     dying : 16
-}
+};
 
 var current_map = new CurrentMap();
 
@@ -81,7 +81,7 @@ var GameSprites = {
 	btn_option : new Image(),
 	btn_no : new Image(),
 	btn_back_to_game : new Image()
-}
+};
 
 function inc_ready_sprites(){
     GameState.sprites_ready++;

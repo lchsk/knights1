@@ -32,7 +32,7 @@ var current_game = {
     
     // holds time till next unit in queue is ready
     unit_training_ms : 0
-}
+};
 
 
 
@@ -87,7 +87,7 @@ var Engine = Engine || (function(){
 
 
 
-        }
+        };
     }());
 
 Engine.init(config.view_width, config.view_height);
@@ -132,7 +132,7 @@ function get_mouse_pos(event)
     canvasX = event.pageX - totalOffsetX;
     canvasY = event.pageY - totalOffsetY;
 
-    return { x: canvasX, y: canvasY }
+    return { x: canvasX, y: canvasY };
 }
 
 HTMLCanvasElement.prototype.relMouseCoords = get_mouse_pos;
@@ -144,7 +144,7 @@ HTMLCanvasElement.prototype.relMouseCoords = get_mouse_pos;
 */
 document.oncontextmenu = function(){
     return false;
-}
+};
 
 
 var View = View || (function(){
@@ -211,7 +211,7 @@ var View = View || (function(){
 				else if( this.x > config.view_max_x)
 					this.x = config.view_max_x;
             }
-        }
+        };
     }());
 
 View.init(config.view_width, config.view_height);
@@ -233,7 +233,7 @@ var mouse_pos = {};
 var mouse_state = {
     left: false,
     right : false
-}
+};
 
 function handle_mouse_move(event)
 {
@@ -551,7 +551,7 @@ var SelectionRect = {
     start_y : 0,
     end_x : 0,
     end_y : 0
-}
+};
 
 
 /**

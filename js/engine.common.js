@@ -18,7 +18,7 @@ var GameState = {
     
     
     
-}
+};
 GameState.screen.src = config.IMAGES_PATH + 'loading_screen.png';
 GameState.screen.onload = function(){
     GameState.screen_ready = true; 
@@ -37,7 +37,7 @@ var load_game = function(){
     // mark that the map is loaded
     if (GameState.sprites_ready == GameState.sprites_number)
         GameState.sprites_loaded = true; 
-}
+};
 
 var draw_load_screen = function(){
     
@@ -83,7 +83,7 @@ var draw_load_screen = function(){
     Engine.ctx.fill();
     Engine.ctx.strokeStyle = 'white';
     Engine.ctx.stroke();
-}
+};
 
 var Direction = {
     N : 0,
@@ -93,7 +93,7 @@ var Direction = {
     S : 4,
 
     W : 6
-}
+};
 
 /**
 * N -> S, E -> W etc.
@@ -121,7 +121,7 @@ var GameSide = {
     NPC : 0,
     KNIGHTS : 1,
     SKELETONS : 2
-}
+};
 
 /**
 * Computes key of a tile
@@ -131,7 +131,7 @@ var GameSide = {
 */
 var get_tile_key = function (m, n){
     return n * config.map_tiles_w + m;
-}
+};
 
 /**
 * Returns tile position in matrix if given tile key
@@ -142,7 +142,7 @@ var get_tile_key = function (m, n){
 */
 var get_tile_by_key = function(key){
     return [ Math.floor(key / config.map_tiles_w), key % config.map_tiles_w ];
-}
+};
 
 /**
 * Given coordinates in pixels returns tile pos in matrix
@@ -152,7 +152,7 @@ var get_tile_by_key = function(key){
 */
 var get_tile = function (x, y){
     return [ Math.floor(x / config.tile_width), Math.floor(y / config.tile_height) ];
-}
+};
 
 /**
 * Returns tile key if given array with positions in matrix
@@ -161,7 +161,7 @@ var get_tile = function (x, y){
 */
 var get_tile_key_mat = function (mat_arr){
     return get_tile_key (mat_arr[0], mat_arr[1]);
-}
+};
 
 /**
 * Returns position of a tile in a tilesheet
@@ -172,7 +172,7 @@ var get_tile_key_mat = function (mat_arr){
 var get_tilesheet_tile = function (tilesheet_x, tilesheet_y){
     
     return tilesheet_y * config.tilesheet_columns + tilesheet_x;
-}
+};
 
 
 /**
@@ -192,7 +192,7 @@ var get_tile_rect = function (tile_key){
     ret.push(pos[1] * config.tile_height + config.tile_height);
 
     return ret;
-}
+};
 
 function get_w()
 {

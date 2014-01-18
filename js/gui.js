@@ -37,15 +37,15 @@ var Button = function(x, y, w, h, hint){
 
     this.GetRect = function(){
         return [this.x, this.y, this.x + this.w, this.y + this.h];
-    }
+    };
 
     this.SetImage = function(state, img){
         //img.title = hint;
         this.images[state] = img;
         //this.images[state].title = "D";
         //this.images[state].id = "BUTTON";
-    }
-}
+    };
+};
 
 
 var Popup = function(message, width, height){
@@ -64,11 +64,11 @@ var Popup = function(message, width, height){
     
 	this.hide = function(){
         that.visible = false;
-    }
+   };
     
     this.show = function(){
         that.visible = true;
-    }
+    };
     
     this.draw = function(){
         roundRect(Engine.ctx, pos_x, pos_y, this.w, this.h, 5, true, true, 'rgb(228, 221, 206)', 'black');
@@ -91,13 +91,13 @@ var Popup = function(message, width, height){
         buttons['btn_ok'].click = function(){
             buttons['btn_ok'].visible = false;
             that.visible = false;
-        }
+        };
 
         var img = buttons['btn_ok'].images[buttons['btn_ok'].state];
         Engine.ctx.drawImage(img, buttons['btn_ok'].x, buttons['btn_ok'].y);
         
-    }
-}
+    };
+};
 
 /**
 * Draw hintbox for gui item (eg. button)

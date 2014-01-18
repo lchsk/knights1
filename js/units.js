@@ -6,7 +6,7 @@ var UnitType = {
     ARCHER : 2,
     KNIGHT : 3,
     SPECIAL : 4
-}
+};
 
 
 var UnitClass = function(side, name, is_warrior, speed, type, strength, attack, label, attack_distance){
@@ -18,7 +18,7 @@ var UnitClass = function(side, name, is_warrior, speed, type, strength, attack, 
 
     this.GetSide = function(){
         return _side;
-    }
+    };
 
     /**
     * Warrior, Knight etc.
@@ -27,13 +27,13 @@ var UnitClass = function(side, name, is_warrior, speed, type, strength, attack, 
 
     this.GetName = function(){
         return _name;
-    }
+    };
     
     var _label = label;
 
     this.GetLabel = function(){
         return _label;
-    }
+    };
 
     /**
     * True if this unit can fight
@@ -43,7 +43,7 @@ var UnitClass = function(side, name, is_warrior, speed, type, strength, attack, 
 
     this.IsWarrior = function(){
         return _is_warrior;
-    }
+    };
 
     /**
     * Speed of movement
@@ -53,7 +53,7 @@ var UnitClass = function(side, name, is_warrior, speed, type, strength, attack, 
 
     this.GetSpeed = function(){
         return _speed;
-    }
+    };
 
     /**
     * Unit's type: worker, warrior etc.
@@ -63,7 +63,7 @@ var UnitClass = function(side, name, is_warrior, speed, type, strength, attack, 
 
     this.GetType = function(){
         return _type;
-    }
+    };
 
     /**
     * Ability to endure opponent's attack
@@ -73,7 +73,7 @@ var UnitClass = function(side, name, is_warrior, speed, type, strength, attack, 
 
     this.GetStrength = function(){
         return _strength;
-    }
+    };
 
     /**
     * Power of unit's attack abilities
@@ -83,13 +83,13 @@ var UnitClass = function(side, name, is_warrior, speed, type, strength, attack, 
 
     this.GetAttack = function(){
         return _attack;
-    }
+    };
 	
 	var _attack_distance = attack_distance;
 	
 	this.GetAttackDistance = function() {
 		return _attack_distance ;
-	}
+	};
 
     this.image = new Image();
 
@@ -101,7 +101,7 @@ var UnitClass = function(side, name, is_warrior, speed, type, strength, attack, 
     
     // hurt animation
     this.hurt = new Image();
-}
+};
 
 /**
 * Skeletons
@@ -183,7 +183,7 @@ var Unit = function(unit_class){
     
     this.SetThat = function(){
         that = null;
-    }
+    };
     
     this.what = 'unit';
     
@@ -218,7 +218,7 @@ var Unit = function(unit_class){
 	
 	this.GetClass = function(){
 		return this.unit_class;
-	}
+	};
 
 
     /**
@@ -226,20 +226,20 @@ var Unit = function(unit_class){
     */
     this.GetCenterX = function(){
         return this.x - 16;   
-    }
+    };
     
     this.GetCenterY = function(){
         return this.y - 16;   
-    }
+    };
     
     this.DrawUnit = function(){
         return (this.visible == true && this.health > 0);
-    }
+    };
 
     this.GetRect = function(){
         //return [this.GetCenterX(), this.GetCenterY(), this.GetCenterX() + this.width, this.GetCenterY() + this.height];
         return [this.x, this.y, this.x + this.width, this.y + this.height];
-    }
+    };
 
     /**
     * Keys of the tiles during movement
@@ -254,11 +254,11 @@ var Unit = function(unit_class){
         var t =  get_tile_by_key (tile);
         that.y = t[0] * 32;
         that.x = t[1] * 32;
-    }
+    };
     
     this.IsMoving = function(){
         return this.road.length > 0;
-    }
+    };
     
     // is this unit in fight
     this.fighting = false;
@@ -327,7 +327,7 @@ var Unit = function(unit_class){
 	        }
 		}
         return [0, 0];
-    }
+   };
 
 	/*
 	*	sets new road for unit -ss
@@ -342,7 +342,7 @@ var Unit = function(unit_class){
 			tabWithNewRoad.shift();
 			this.road = tabWithNewRoad;
 		}
-	}
+	};
 
 	/*
 	* get tile form unit start his road -ss
@@ -356,7 +356,7 @@ var Unit = function(unit_class){
 		{
 			return this.current_tile;
 		}
-	}
+	};
 	
 	/*
 	* search position where unit can stop when purpose title is full of other thinks-ss
@@ -376,7 +376,7 @@ var Unit = function(unit_class){
 					return -1;
 				else
 					return 1;
-			}
+			};
 		
 			var pos_start = get_tile_by_key(curr_position);
 			var pos_end = get_tile_by_key(purpose_position);
@@ -427,7 +427,7 @@ var Unit = function(unit_class){
 				}
 			}
 		}
-	}
+	};
     
     
     /**
@@ -487,7 +487,7 @@ var Unit = function(unit_class){
 				}
             }
         }
-    }
+    };
 	
 	this.offense = function(){
 		if(this.can_offense > 0)
@@ -499,7 +499,7 @@ var Unit = function(unit_class){
 		{
 			return 0;
 		}
-	}
+	};
     
     /**
     * :D
@@ -537,7 +537,7 @@ var Unit = function(unit_class){
 		}
 		
 		return false;
-    }
+    };
 
     /**
     * Make unit move
@@ -653,7 +653,7 @@ var Unit = function(unit_class){
 				}
 				else
 				{
-					dir = -1
+					dir = -1;
 					this.current_frame = 0;
 				}
             }
@@ -686,5 +686,5 @@ var Unit = function(unit_class){
 		{			
             current_map.build_map_with_unit[this.current_tile] = 0;
 		}
-    }
-}
+    };
+};

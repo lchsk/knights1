@@ -40,7 +40,7 @@ var buildings_tiles = function(){
     ret = ret.concat(current_map.tiles_excluded_from_graph);
 
     return ret;
-}
+};
 
 function update_build_map()
 {
@@ -138,4 +138,4 @@ var build_graph = function()
         delete graph[i][rem_key];
     }
 
-}
+};

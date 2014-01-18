@@ -28,19 +28,19 @@ var CurrentMap = function()
 
     this.GetMap = function(){
         return map;
-    }
+    };
 
     this.SetMap = function(m){
         map = m;
-    }
+    };
 
     this.GetLayers = function(){
         return layers;
-    }
+    };
 
     this.SetLayers = function(m){
         layers = m;
-    }
+    };
 
     /**
     * Tiles
@@ -81,10 +81,10 @@ var CurrentMap = function()
 
             ctx.SetMap(json.map.items.data);
 
-        }
+        };
 
         $.ajax({ url: url, cache: false, async: false }).done(callback);    
-    }
+    };
     
     var moutain_tiles = [
                         882, 620, 792, 793, 793, 793, 793, 793, 793, 793, 795, 969, 970,                  927, 665, 666, 667, 666, 667, 666, 666, 666, 666, 667, 1014, 1015,                  972, 710, 883, 620, 621, 622, 623, 624, 625, 626, 627, 886, 887,                   927, 928, 665, 666, 667, 668, 669, 670, 671, 672, 931, 932,                   972, 973, 710, 711, 712, 713, 714, 715, 716, 717, 976, 977,                     755, 756, 757, 758, 759, 760, 761, 762,                       800, 801, 802, 803, 804, 805, 806, 807,                                                                                                                                                                                                                                                    571, 572, 573, 571, 572, 573, 574,          571,   574,           616, 617, 618, 616, 617, 618, 619, 970,              925,         661, 662, 663, 661, 662, 663, 664, 1015,                       621, 707, 708, 707, 708, 623, 668, 887,                       883, 620, 621, 622, 623, 886, 713, 932,                       928, 665, 666, 667, 668, 931, 932,                        973, 710, 711, 712, 713, 976, 977,                         755, 756, 757, 758,                           800, 801, 802, 803,                                                      
@@ -176,7 +176,7 @@ var CurrentMap = function()
                             ctx.fog[i][j] = -1;        
                     }
                 }
-            }
+            };
             
             remove_fog_from_start();
             
@@ -223,10 +223,10 @@ var CurrentMap = function()
             
             // mark that the map is loaded
             GameState.map_loaded = true; 
-        }
+        };
 
         $.ajax({ url: url, cache: false, async: false }).done(callback);
-    }
+    };
     
     /**
     * Loads materials (trees, stones) from map to the list
@@ -256,7 +256,7 @@ var CurrentMap = function()
                 }
             }
         }
-    }
+    };
      
 
     /**
@@ -278,8 +278,8 @@ var CurrentMap = function()
             return Direction.W;
 
         return -1;
-    }
-}
+    };
+};
 
 // without trees & stones layer
 var render_layers = 6;

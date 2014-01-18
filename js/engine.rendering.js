@@ -24,7 +24,7 @@ var drawHealthBox  = function(unit,x,y) {
 	
 	Engine.ctx.fillStyle = fill;
 	Engine.ctx.strokeStyle = stroke;
-}
+};
 
 var render = function (){
 
@@ -498,4 +498,4 @@ var render = function (){
         if (popups[p].visible)
             popups[p].draw();
     }
-}
+};

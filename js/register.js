@@ -285,7 +285,7 @@ function askAboutUserName(str){
 			
 			document.getElementById ("userLabel").innerHTML = text;			
 		}
-	}
+	};
 	var parameters="q="+str;
 	xmlHttp.open("POST","queryDB/checkUser.php",true);
 	xmlHttp.setRequestHeader("Content-type", 

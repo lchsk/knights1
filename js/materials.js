@@ -12,7 +12,7 @@ var MaterialClass = function(supply, tilesheet_pos, size, type){
 
     this.GetSupply = function(){
         return _supply;
-    }
+    };
     
     this.type = type; // material type (stone, timber)
     
@@ -27,7 +27,7 @@ var MaterialClass = function(supply, tilesheet_pos, size, type){
     * eg. [3, 4]
     */
     this.tilesheet_pos = tilesheet_pos;
-}
+};
 
 /*
 var stone_class_1 = new MaterialClass(30, [8, 0], [1, 1]);
@@ -81,6 +81,6 @@ var Material = function(material_class, x, y){
     this.GetRect = function(){
         return [this.x * 32, this.y * 32, this.x * 32 + this.x + this.material_class.size[0] * config.tile_width, this.y * 32 + this.y + this.material_class.size[1] * config.tile_height];
         //return [this.x * 32, this.y * 32, this.x * 32 + config.tile_width, this.y * 32 + config.tile_height];
-    }
+    };
 
-}
+};

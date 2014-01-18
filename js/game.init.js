@@ -18,7 +18,7 @@ var GameConst = {
     
     // how far gold can be to collect
     furthest_possible_gold : 7,
-}
+};
 
 
 Sprites.init();
@@ -162,4 +162,4 @@ prices = {
         gold: 20,
         food: 15
     },
-}
+};

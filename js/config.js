@@ -62,10 +62,10 @@ var Config = Config || function(){
         this.view_max_x = this.map_width - this.view_width - 1;
         this.view_max_y = this.map_height - this.view_height - 1;  
 		
-    }
+    };
 	
 	this.inverse_button =0;
-}
+};
 
 
 var config = new Config();

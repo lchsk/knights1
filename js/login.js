@@ -31,7 +31,7 @@ function login() {
 			}
 			t = false;
 		}
-	}
+	};
 	var q = document.getElementById ("userName").value;
 	var pass = document.getElementById ("password").value;
 	var parameters="q="+str+"&pass="+pass;
@@ -50,14 +50,18 @@ function login() {
 function logout() {
 	session_start();
 	session_destroy();
-	setTimeout(function(){top.location.href="index.php"},1);
+	setTimeout(
+		function(){
+			top.location.href="index.php";
+			}
+		,1);
 }
 
 window.addEventListener("beforeunload",  function(e) {
-	//usuwamy grê która siê nie rozpocze³a a na któr¹ czekamy
+
 	
 	var confirmationMessage = "\o/";
  
 	(e || window.event).returnValue = confirmationMessage;     //Gecko + IE
 	return confirmationMessage;      
-};
+});

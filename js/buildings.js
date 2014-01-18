@@ -7,7 +7,7 @@ var BuildingType = {
     TOWER : 3,
     BARRACKS : 4,
     GOLDMINE : 5
-}
+};
 
 
 var BuildingClass = function(side, name, type, strength, size, tilesheet_pos, label, construction_time, attack, attack_distance){
@@ -19,7 +19,7 @@ var BuildingClass = function(side, name, type, strength, size, tilesheet_pos, la
 
     this.GetSide = function(){
         return _side;
-    }
+    };
     
     /**
     * farm...
@@ -28,7 +28,7 @@ var BuildingClass = function(side, name, type, strength, size, tilesheet_pos, la
 
     this.GetLabel = function(){
         return _label;
-    }
+    };
 
     /**
     * TOWNHALL, BARRACKS etc.
@@ -37,7 +37,7 @@ var BuildingClass = function(side, name, type, strength, size, tilesheet_pos, la
 
     this.GetName = function(){
         return _name;
-    }
+    };
 
     /**
     * Building's type: main, tower etc.
@@ -47,7 +47,7 @@ var BuildingClass = function(side, name, type, strength, size, tilesheet_pos, la
 
     this.GetType = function(){
         return _type;
-    }
+    };
 
     /**
     * Ability to endure opponent's attack
@@ -57,7 +57,7 @@ var BuildingClass = function(side, name, type, strength, size, tilesheet_pos, la
 
     this.GetStrength = function(){
         return _strength;
-    }
+    };
     
     /**
     * Building size in tiles
@@ -87,20 +87,20 @@ var BuildingClass = function(side, name, type, strength, size, tilesheet_pos, la
 	
 	this.GetAttack = function(){
         return _attack;
-    }
+   };
 	
 	var _attack_distance = attack_distance;
 
 	this.GetAttackDistance = function(){
         return _attack_distance;
-    }
+   };
 	
 	var _canAttack = attack_distance > 0 && attack > 0;
 	
 	this.CanAttack  = function(){
         return _canAttack;
-    }
-}
+   };
+};
 
 /**
 * Skeletons
@@ -169,27 +169,27 @@ var Building = function(building_class){
 	
 	this.GetClass = function(){
 		return this.building_class;
-	}
+	};
 
     this.DrawBuilding = function(){
         //return (this.visible == true && this.GetHealth() > 0);
         return this.visible;
-    }
+    };
 
     this.GetRect = function(){
         return [this.x * 32, this.y * 32, this.x * 32 + this.x + this.building_class.size[0] * config.tile_width, this.y * 32 + this.y + this.building_class.size[1] * config.tile_height];
-    }
+    };
 	
 	this.GetRectFight = function(){
         return [this.x * 32, this.y * 32, this.x * 32 + (this.building_class.size[0]-1) * 32, this.y * 32 + (this.building_class.size[1]-1) * 32];
-    }
+   };
     
     /**
     * Returns building health
     */
     this.GetHealth = function(){
         return this.health;
-    }
+    };
 	
 	this.attack_target;
 	this.fighting = false;
@@ -217,7 +217,7 @@ var Building = function(building_class){
         } else {
 			_ms =0;
 		}
-    }
+    };
 	
 		
 	this.offense = function(){
@@ -230,7 +230,7 @@ var Building = function(building_class){
 		{
 			return 0;
 		}
-	}
+	};
 	
 	this.destroying = function(ms) {
 		if(this.animation_destroy != null)
@@ -247,5 +247,5 @@ var Building = function(building_class){
 			animations.push(this.animation_destroy);
 		}
 		return false;
-	}
-}
+	};
+};

@@ -22,7 +22,7 @@ var AnimationClass = function(name, tilesheet, rows_n, columns_n, frame_start, f
     this.frame_width = frame_width;
     this.frame_height = frame_height;
     this.speed = speed;
-}
+};
 
 /**
 * Possible animations
@@ -70,7 +70,7 @@ var Animation = function(animation_class, x, y){
                 this.animation_class.frame_width, this.animation_class.frame_height
             );
         }
-    }
+    };
 
     this.play = function(ms)
     {
@@ -90,12 +90,12 @@ var Animation = function(animation_class, x, y){
                 }
             }                
         }
-    }
+    };
 	
 	this.finish = function()
 	{
 		if (this.current_frame == this.animation_class.frame_finish)
 			return true;
 		return false;
-	}
-}
+	};
+};

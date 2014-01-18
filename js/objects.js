@@ -23,16 +23,16 @@ var Object = function(){
     this.DrawBuilding = function(){
         //return (this.visible == true && this.GetHealth() > 0);
         return this.visible;
-    }
+    };
 
     this.GetRect = function(){
         return [this.x * 32, this.y * 32, this.x * 32 + this.x + this.building_class.size[0] * config.tile_width, this.y * 32 + this.y + this.building_class.size[1] * config.tile_height];
-    }
+    };
     
     /**
     * Returns building health
     */
     this.GetHealth = function(){
         return (health * this.building_class.GetStrength()) / (100 * this.building_class.GetStrength()) * 100;
-    }
-}
+    };
+};
